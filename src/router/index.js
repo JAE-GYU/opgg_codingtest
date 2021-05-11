@@ -1,14 +1,34 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+
+import Layout from "@/views/Layout";
+import Summoner from "@/views/Summoner";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    redirect: {
+      name: "Summoner",
+    },
+  },
+  {
+    path: "/summoner/:userName",
+    component: Layout,
+    name: "Summoner",
+    children: [
+      {
+        path: "",
+        component: Summoner,
+      },
+    ],
+  },
+  {
+    path: "*",
+    redirect: {
+      name: "Summoner",
+    },
   },
 ];
 
