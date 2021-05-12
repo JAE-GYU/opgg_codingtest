@@ -45,7 +45,6 @@
   border-bottom: 1px solid #d8d8d8;
 
   .container {
-    margin: 0 auto;
     padding-top: 15px;
     padding-left: 20px;
   }
