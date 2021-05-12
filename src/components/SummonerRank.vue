@@ -48,10 +48,6 @@ export default {
   box-sizing: border-box;
   background: #f2f2f2;
 
-  & + & {
-    margin-top: 8px;
-  }
-
   &-img {
     width: 104px;
     width: 104px;
