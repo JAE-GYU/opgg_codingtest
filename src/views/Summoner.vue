@@ -1,5 +1,18 @@
 <template>
   <div class="summoner__wrap">
-    <section id="summoner-info">Summoner</section>
+    <summoner-info></summoner-info>
   </div>
 </template>
+
+<script>
+import SummonerInfo from "@/components/SummonerInfo";
+
+export default {
+  components: {
+    SummonerInfo,
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+</style>

@@ -22,7 +22,7 @@ export default {
   padding: 12px 0;
   display: flex;
   justify-content: center;
-  background-color: var(--color-primary);
+  background-color: #1ea1f7;
   .container {
     display: flex;
     .search-input {

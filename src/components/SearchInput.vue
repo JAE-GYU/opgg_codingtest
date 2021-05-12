@@ -23,17 +23,17 @@
   display: flex;
   border-radius: 2px;
   overflow: hidden;
-  background: var(--color-input);
+  background: #fff;
   &__inner {
     width: 100%;
     padding: 0;
-    color: var(--color-input-text);
+    color: #727272;
     font-size: 12px;
     border: none;
     background: none;
     outline: none;
     &::placeholder {
-      color: var(--color-input-text);
+      color: #727272;
     }
   }
 
