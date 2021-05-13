@@ -12,17 +12,17 @@
       </div>
     </div>
     <div class="match__wrap">
-      <summoner-statistic></summoner-statistic>
+      <summoner-overview></summoner-overview>
     </div>
   </div>
 </template>
 
 <script>
-import SummonerStatistic from "@/components/SummonerStatistic";
+import SummonerOverview from "@/components/SummonerOverview";
 
 export default {
   components: {
-    SummonerStatistic,
+    SummonerOverview,
   },
 };
 </script>

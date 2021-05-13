@@ -6,7 +6,7 @@ import store from "./store";
 import i18n from "@/i18n";
 
 import HighchartsVue from "highcharts-vue";
-Vue.use(HighchartsVue)
+Vue.use(HighchartsVue);
 
 Vue.config.productionTip = false;
 

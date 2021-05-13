@@ -1,8 +1,8 @@
 <template>
-  <div class="match-statistic">
+  <div class="match-overview">
     <div class="win-ratio">
       <div class="chart__wrap">
-        <span class="statistic-title">{{
+        <span class="overview-title">{{
           $t("label.total_win_lose", { total: 70, win: 23, lose: 47 })
         }}</span>
         <div class="chart__wrap">
@@ -12,15 +12,15 @@
       </div>
       <div class="ratio-detail">
         <span class="kda">
-          <span class="kill">7.4 </span>
+          <span class="kill">25.9 </span>
           <span class="divider">/</span>
-          <span class="death color-red"> 7.7 </span>
+          <span class="death color-red"> 15.8 </span>
           <span class="divider">/</span>
-          <span class="assist"> 13.7</span>
+          <span class="assist"> 14.1</span>
         </span>
-        <span class="kda-ratio red">
-          <span><span class="accent">2.73</span>:1</span>
-          <span class="percentage color-red"> (52%)</span>
+        <span class="kda-ratio">
+          <span><span class="accent color-green">3.73</span>:1</span>
+          <span class="percentage color-red"> (58%)</span>
         </span>
       </div>
     </div>
@@ -73,7 +73,7 @@
       </div>
     </div>
     <div class="most-position">
-      <span class="statistic-title">{{ $t("label.prefer_position") }}</span>
+      <span class="overview-title">{{ $t("label.prefer_position") }}</span>
       <div class="most-item">
         <img
           class="position-img"
@@ -175,7 +175,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.match-statistic {
+.match-overview {
   width: 100%;
   height: 158px;
   display: flex;
@@ -184,7 +184,7 @@ export default {
   border-style: solid;
   border-color: #cdd2d2;
 
-  .statistic-title {
+  .overview-title {
     font-family: Helvetica;
     font-size: 12px;
     color: #666666;
@@ -251,8 +251,13 @@ export default {
       }
 
       .kda-ratio {
-        font-size: 16px;
         margin-top: 6px;
+
+        span {
+          font-size: 16px;
+          color: #333333;
+        }
+
         .accent {
           font-weight: bold;
         }

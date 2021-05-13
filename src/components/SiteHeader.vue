@@ -1,6 +1,6 @@
 <template>
   <header id="site-header">
-    <span @click="() => ($i18n.locale = 'en')">setLang</span>
+    <!-- <span @click="() => ($i18n.locale = 'en')">setLang</span> -->
     <div class="container">
       <search-input></search-input>
     </div>
