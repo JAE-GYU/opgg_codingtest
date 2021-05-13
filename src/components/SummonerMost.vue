@@ -2,19 +2,27 @@
   <div class="summoner-most">
     <div class="tab__wrap">
       <div class="tab__header">
-        <div class="tab__header-item active">
-          <span>챔피언 승률</span>
+        <div
+          @click="setActiveName('champion')"
+          class="tab__header-item"
+          :class="{ active: activeName === 'champion' }"
+        >
+          <span>{{ $t("label.wr_champion") }}</span>
         </div>
-        <div class="tab__header-item">
-          <span>7일간 랭크 승률</span>
+        <div
+          @click="setActiveName('week')"
+          class="tab__header-item"
+          :class="{ active: activeName === 'week' }"
+        >
+          <span>{{ $t("label.wr_week") }}</span>
         </div>
       </div>
       <div class="tab__content">
-        <div class="tab-pane">
+        <div class="tab-pane" v-if="activeName === 'champion'">
           <div class="most-champion__wrap">
             <div class="most-champion">
               <img
-                class="most-champion-img"
+                class="champion-img"
                 src="https://opgg-static.akamaized.net/images/lol/champion/Anivia.png?image=w_30&v=1"
                 alt="most-champion-name"
               />
@@ -35,7 +43,7 @@
             </div>
             <div class="most-champion">
               <img
-                class="most-champion-img"
+                class="champion-img"
                 src="https://opgg-static.akamaized.net/images/lol/champion/Volibear.png?image=q_auto&v=1591083841"
                 alt="most-champion-name"
               />
@@ -56,7 +64,7 @@
             </div>
             <div class="most-champion">
               <img
-                class="most-champion-img"
+                class="champion-img"
                 src="https://opgg-static.akamaized.net/images/lol/champion/Aatrox.png?image=q_auto&v=1591083841"
                 alt="most-champion-name"
               />
@@ -77,10 +85,86 @@
             </div>
           </div>
         </div>
+        <div class="tab-pane" v-if="activeName === 'week'">
+          <div class="most-champion-week__wrap">
+            <div class="most-champion-week">
+              <img
+                class="champion-img"
+                src="https://opgg-static.akamaized.net/images/lol/champion/Anivia.png?image=w_30&v=1"
+                alt="most-champion-name"
+              />
+              <div class="most-champion-week-info">
+                <span class="champion-name">애니비아</span>
+                <span class="win-ratio">71%</span>
+                <div class="win-ratio-chart">
+                  <div class="win" style="width: 40%">
+                    <span>4승</span>
+                  </div>
+                  <div class="lose" style="width: 60%">
+                    <span>6패</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="most-champion-week">
+              <img
+                class="champion-img"
+                src="https://opgg-static.akamaized.net/images/lol/champion/Anivia.png?image=w_30&v=1"
+                alt="most-champion-name"
+              />
+              <div class="most-champion-week-info">
+                <span class="champion-name">애니비아</span>
+                <span class="win-ratio">71%</span>
+                <div class="win-ratio-chart">
+                  <div class="win" style="width: 40%">
+                    <span>4승</span>
+                  </div>
+                  <div class="lose" style="width: 60%">
+                    <span>6패</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="most-champion-week">
+              <img
+                class="champion-img"
+                src="https://opgg-static.akamaized.net/images/lol/champion/Anivia.png?image=w_30&v=1"
+                alt="most-champion-name"
+              />
+              <div class="most-champion-week-info">
+                <span class="champion-name">애니비아</span>
+                <span class="win-ratio">71%</span>
+                <div class="win-ratio-chart">
+                  <div class="win" style="width: 40%">
+                    <span>4승</span>
+                  </div>
+                  <div class="lose" style="width: 60%">
+                    <span>6패</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      activeName: "week",
+    };
+  },
+  methods: {
+    setActiveName(val) {
+      this.activeName = val;
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .summoner-most {
@@ -103,8 +187,13 @@
         align-items: center;
         border-left: 1px solid #cdd2d2;
         border-bottom: 1px solid #cdd2d2;
+        box-sizing: border-box;
         background: #f2f2f2;
         cursor: pointer;
+
+        &:first-of-type {
+          border-left: none;
+        }
 
         &:hover span {
           color: #5e5e5e;
@@ -127,62 +216,138 @@
     }
   }
 
+  .champion-img {
+    border-radius: 50%;
+  }
+
+  .info__item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 24px;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+
+    .info__text {
+      font-family: Helvetica;
+      font-size: 11px;
+      color: #879292;
+      &.accent {
+        font-size: 13px;
+        font-weight: bold;
+        color: #5e5e5e;
+        margin-bottom: 3px;
+        &.red {
+          color: #c6443e;
+        }
+        &.green {
+          color: #2daf7f;
+        }
+        &.blue {
+          color: #1f8ecd;
+        }
+        &.yellow {
+          color: #e19205;
+        }
+      }
+    }
+  }
+
   .most-champion {
     width: 100%;
     height: 53px;
     padding: 4px 16px 4px 15px;
-    border-bottom: 1px solid #cdd2d2;
-    box-sizing: border-box;
-    display: flex;
 
-    &:last-of-type {
-      border-bottom: none;
-    }
-
-    &-img {
+    .champion-img {
       width: 45px;
       height: 45px;
-      border-radius: 50%;
     }
 
     &-info {
       padding-left: 10px;
       display: flex;
+    }
+  }
 
-      .info__item {
+  .most-champion-week {
+    width: 100%;
+    height: 48px;
+    padding: 8px 8px 8px 15px;
+
+    .champion-img {
+      width: 32px;
+      height: 32px;
+    }
+
+    &-info {
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      box-sizing: border-box;
+
+      .champion-name,
+      .win-ratio {
+        line-height: 16px;
+        font-size: 13px;
+        font-weight: bold;
+      }
+
+      .champion-name {
+        font-family: Helvetica;
+        width: 60px;
+        color: #5e5e5e;
+      }
+
+      .win-ratio {
+        font-family: Helvetica;
+        color: #879292;
+      }
+
+      .win-ratio-chart {
+        width: 123px;
+        height: 24px;
+        border-radius: 4px;
+        margin-left: 12px;
+        overflow: hidden;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin-right: 24px;
 
-        &:last-of-type {
-          margin-right: 0;
-        }
-
-        .info__text {
-          font-family: Helvetica;
-          font-size: 11px;
-          color: #879292;
-          &.accent {
-            font-size: 13px;
+        .win,
+        .lose {
+          height: 100%;
+          line-height: 24px;
+          float: left;
+          span {
+            font-family: Helvetica;
+            font-size: 12px;
             font-weight: bold;
-            color: #5e5e5e;
-            margin-bottom: 3px;
-            &.red {
-              color: #c6443e;
-            }
-            &.green {
-              color: #2daf7f;
-            }
-            &.blue {
-              color: #1f8ecd;
-            }
-            &.yellow {
-              color: #e19205;
-            }
+            color: #fff;
           }
         }
+
+        .win {
+          padding-left: 4px;
+          background: #1f8ecd;
+        }
+
+        .lose {
+          padding-right: 4px;
+          background: #ee5a52;
+          text-align: right;
+        }
       }
+    }
+  }
+
+  .most-champion,
+  .most-champion-week {
+    border-bottom: 1px solid #cdd2d2;
+    box-sizing: border-box;
+    display: flex;
+    &:last-of-type,
+    &:last-of-type {
+      border: none;
     }
   }
 }

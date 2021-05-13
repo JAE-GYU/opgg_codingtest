@@ -1,2 +1,8 @@
 label:
   search_placeholder: 소환사명,챔피언…
+  wr: 승률
+  wr_champion: 챔피언 승률
+  wr_week: 7일간 랭크 승률
+  win_lose: "{win}승 {lose}패"
+  kda: 평점
+  played: 게임

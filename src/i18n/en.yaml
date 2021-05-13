@@ -1,2 +1,8 @@
 label:
   search_placeholder: Name1,Name2…
+  wr: Win Ratio
+  wr_champion: Champion Win Ratio
+  wr_week: Rank win rate per week
+  win_lose: "{win}W {lose}L"
+  kda: KDA
+  played: played
