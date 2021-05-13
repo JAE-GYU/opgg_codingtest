@@ -15,3 +15,25 @@ html, body {
   max-width: 1000px;
   margin: 0 auto;
 }
+
+.color-red {
+  color: #c6443e !important;
+}
+
+.color-green {
+  color: #2daf7f !important;
+}
+
+.color-blue {
+  color: #1f8ecd !important;
+}
+
+.color-yellow {
+  color: #e19205 !important;
+}
+
+.champion-img {
+  flex-grow: 0;
+  flex-shrink: 0;
+  border-radius: 50%;
+}

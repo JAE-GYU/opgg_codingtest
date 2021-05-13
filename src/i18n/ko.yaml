@@ -4,5 +4,21 @@ label:
   wr_champion: 챔피언 승률
   wr_week: 7일간 랭크 승률
   win_lose: "{win}승 {lose}패"
+  total_win_lose: "{total}전 {win}승 {lose}패"
   kda: 평점
   played: 게임
+  no_champion: 챔피언 정보가 없습니다.
+  prefer_position: 선호 포지션 (랭크)
+
+game_type:
+  total: 전체
+  solo_rank: 솔로랭크
+  flex_rank: 자유 5:5 랭크
+  flex_rank_short: 자유랭크
+
+position:
+  top: 탑
+  mid: 미드
+  adc: 원딜
+  sup: 서포터
+  jng: 정글 

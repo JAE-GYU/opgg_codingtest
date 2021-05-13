@@ -9,7 +9,9 @@
           <summoner-rank :league="{ hasResults: false }"></summoner-rank>
           <summoner-most></summoner-most>
         </section>
-        <section class="main"></section>
+        <section class="main">
+          <summoner-match></summoner-match>
+        </section>
       </div>
     </div>
   </div>
@@ -18,6 +20,7 @@
 <script>
 import SummonerInfo from "@/components/SummonerInfo";
 import SummonerRank from "@/components/SummonerRank";
+import SummonerMatch from "@/components/SummonerMatch";
 import SummonerMost from "@/components/SummonerMost";
 
 export default {
@@ -25,6 +28,7 @@ export default {
     SummonerInfo,
     SummonerRank,
     SummonerMost,
+    SummonerMatch,
   },
 };
 </script>
@@ -47,7 +51,6 @@ export default {
   .main {
     height: 400px;
     flex: 1 1 auto;
-    background: #faa;
   }
 }
 </style>

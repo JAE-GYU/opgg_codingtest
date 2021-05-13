@@ -4,5 +4,21 @@ label:
   wr_champion: Champion Win Ratio
   wr_week: Rank win rate per week
   win_lose: "{win}W {lose}L"
+  total_win_lose: "{total}G {win}W {lose}L"
   kda: KDA
   played: played
+  no_champion: Not found Champion
+  prefer_position: Preferred Position (Rank)
+
+game_type:
+  total: Total
+  solo_rank: Ranked Solo
+  flex_rank: Ranked Flex
+  flex_rank_short: Ranked Flex
+
+position:
+  top: Top
+  mid: Middle
+  adc: ADC
+  sup: Support
+  jng: Jungle

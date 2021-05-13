@@ -53,7 +53,7 @@
                   <span class="info__text">CS 67.8 (2.4)</span>
                 </div>
                 <div class="info__item">
-                  <span class="info__text accent blue">4.88:1 평점</span>
+                  <span class="info__text accent color-blue">4.88:1 평점</span>
                   <span class="info__text">6.5 / 4.5 / 6.4</span>
                 </div>
                 <div class="info__item">
@@ -74,11 +74,13 @@
                   <span class="info__text">CS 67.8 (2.4)</span>
                 </div>
                 <div class="info__item">
-                  <span class="info__text accent yellow">5.88:1 평점</span>
+                  <span class="info__text accent color-yellow"
+                    >5.88:1 평점</span
+                  >
                   <span class="info__text">6.5 / 4.5 / 6.4</span>
                 </div>
                 <div class="info__item">
-                  <span class="info__text accent red">67%</span>
+                  <span class="info__text accent color-red">67%</span>
                   <span class="info__text">58게임</span>
                 </div>
               </div>
@@ -155,7 +157,7 @@
 export default {
   data() {
     return {
-      activeName: "week",
+      activeName: "champion",
     };
   },
   methods: {
@@ -216,10 +218,6 @@ export default {
     }
   }
 
-  .champion-img {
-    border-radius: 50%;
-  }
-
   .info__item {
     display: flex;
     flex-direction: column;
@@ -239,18 +237,6 @@ export default {
         font-weight: bold;
         color: #5e5e5e;
         margin-bottom: 3px;
-        &.red {
-          color: #c6443e;
-        }
-        &.green {
-          color: #2daf7f;
-        }
-        &.blue {
-          color: #1f8ecd;
-        }
-        &.yellow {
-          color: #e19205;
-        }
       }
     }
   }
