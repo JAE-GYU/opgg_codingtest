@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import SiteHeader from "@/components/SiteHeader";
+import SiteHeader from "@/components/layout/SiteHeader";
 
 export default {
   components: {

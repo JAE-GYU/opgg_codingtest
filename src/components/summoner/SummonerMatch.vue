@@ -1,6 +1,6 @@
 <template>
   <div class="summoner-match">
-    <div class="match-tab__wrap">
+    <div class="match-tabs">
       <div class="match-tab">
         <span>{{ $t("game_type.total") }}</span>
       </div>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import SummonerOverview from "@/components/SummonerOverview";
+import SummonerOverview from "@/components/summoner/SummonerOverview";
 
 export default {
   components: {
@@ -28,7 +28,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.match-tab__wrap {
+.match-tabs {
   width: 100%;
   height: 36px;
   display: flex;

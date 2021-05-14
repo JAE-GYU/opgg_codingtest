@@ -18,10 +18,10 @@
 </template>
 
 <script>
-import SummonerInfo from "@/components/SummonerInfo";
-import SummonerRank from "@/components/SummonerRank";
-import SummonerMatch from "@/components/SummonerMatch";
-import SummonerMost from "@/components/SummonerMost";
+import SummonerInfo from "@/components/summoner/SummonerInfo";
+import SummonerRank from "@/components/summoner/SummonerRank";
+import SummonerMatch from "@/components/summoner/SummonerMatch";
+import SummonerMost from "@/components/summoner/SummonerMost";
 
 export default {
   components: {

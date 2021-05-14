@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import SearchInput from "@/components/SearchInput";
+import SearchInput from "@/components/common/SearchInput";
 
 export default {
   components: {
