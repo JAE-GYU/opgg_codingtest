@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueI18n from "vue-i18n";
-import en from "./en.yaml";
-import ko from "./ko.yaml";
+import en from "@/i18n/locales/en.yaml";
+import ko from "@/i18n/locales/ko.yaml";
 
 import Utils from "@/utils";
 
