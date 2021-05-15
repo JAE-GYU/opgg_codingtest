@@ -76,7 +76,7 @@ export default {
 
       &.active {
         background: #ededed;
-        border-bottom: 0;
+        border-bottom-color: transparent;
         span {
           font-weight: bold;
           color: #5e5e5e;

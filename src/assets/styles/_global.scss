@@ -89,3 +89,28 @@ html, body {
     color: #999;
   }
 }
+
+.search-tab {
+  .tab__header-item {
+    height: 40px !important;
+    background-color: #e3e3e3 !important;    
+    
+    span,
+    &:hover span {
+      color: #9c9c9c !important;
+    }
+
+    &.active {
+      background-color: #fff !important;
+      span,
+      &:hover span {
+        font-weight: normal !important;
+        color: #4a4a4a !important;
+      }
+    }
+  }
+  
+  .tab-pane {
+    background-color: #fff !important;
+  }
+}

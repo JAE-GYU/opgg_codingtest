@@ -1,5 +1,4 @@
-label:
-  search_placeholder: Name1,Name2…
+label:  
   wr: Win Ratio
   wr_champion: Champion Win Ratio
   wr_week: Rank win rate per week
@@ -22,3 +21,8 @@ position:
   adc: ADC
   sup: Support
   jng: Jungle
+
+search:
+  placeholder: Name1,Name2…
+  recent: Recent Search
+  favorites: Favorites

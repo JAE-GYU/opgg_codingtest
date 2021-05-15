@@ -1,0 +1,29 @@
+.icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  &.mini {
+    width: 13px;
+    height: 13px;
+  }
+
+  &.icon-close {
+    background-image: url('~@/assets/images/icons/icon_close.png');
+  }
+
+  &.icon-favorite-on {
+    background-image: url('~@/assets/images/icons/icon_favorite_on.png');
+  }
+
+  &.icon-favorite-off {
+    background-image: url('~@/assets/images/icons/icon_favorite_off.png');
+  }
+
+  &.icon-info {
+    background-image: url('~@/assets/images/icons/icon_info.png');
+  }
+}
