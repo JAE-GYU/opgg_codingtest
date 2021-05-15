@@ -314,6 +314,7 @@ export default {
   }
 
   .most-champion {
+    max-width: 228px;
     flex-basis: 228px;
     padding: 16px;
     border-width: 0 1px;
@@ -322,6 +323,7 @@ export default {
   }
 
   .most-position {
+    max-width: 184px;
     flex-basis: 184px;
     padding: 16px;
 

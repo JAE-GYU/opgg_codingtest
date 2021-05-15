@@ -466,17 +466,17 @@
     .details {
       width: 30px;
       height: 96px;
+      display: table-cell;
+      vertical-align: bottom;
+      padding-bottom: 12px;
       border-width: 1px;
       border-style: solid;
       box-sizing: border-box;
       position: relative;
+      text-align: center;
       &__icon {
         width: 13px;
         height: 10px;
-        position: absolute;
-        bottom: 12px;
-        left: 50%;
-        transform: translateX(-50%);
       }
     }
 

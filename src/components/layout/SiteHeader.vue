@@ -23,7 +23,6 @@ export default {
   height: 97px;
   padding: 12px 0;
   display: flex;
-  justify-content: center;
   background-color: #1ea1f7;
   .container {
     display: flex;

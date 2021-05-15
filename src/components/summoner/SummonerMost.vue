@@ -164,7 +164,6 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-right: 24px;
 
     &:last-of-type {
       margin-right: 0;
@@ -196,6 +195,15 @@ export default {
     &-info {
       padding-left: 10px;
       display: flex;
+      flex: 1;
+
+      .info__item:nth-of-type(1) {
+        flex-basis: 85px;
+      }
+
+      .info__item:nth-of-type(3) {
+        margin-left: auto;
+      }
     }
   }
 
