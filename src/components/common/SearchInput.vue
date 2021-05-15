@@ -10,78 +10,109 @@
       v-model="searchVal"
       :placeholder="$t('search.placeholder')"
       @focus="setDropdownActive(true)"
+      @input="handleInput"
       @keydown.enter="search(searchVal)"
+      @keydown.up="handleArrowUpKey"
+      @keydown.down="handleArrowDownKey"
     />
     <button class="search-input__btn" @click="search(searchVal)">
       <img src="@/assets/images/search.png" alt="search-btn" />
     </button>
 
     <div class="search-input__dropdown" v-show="dropdownActive">
-      <tabs class="search-tab">
-        <tab-pane :name="$t('search.recent')">
-          <div class="no-result" v-if="searchHistory.length <= 0">
-            <i class="icon icon-info"></i>
-            <span class="no-result__text" v-html="$t('search.no_recent')">
-            </span>
-          </div>
-          <ul class="search-history" v-else>
-            <li
-              class="search-history-item"
-              v-for="(item, idx) in searchHistory"
-              :key="idx"
-            >
-              <router-link
-                :to="`/summoner/${item.summonerName}`"
-                class="summoner-name"
-                >{{ item.summonerName }}</router-link
+      <div class="autocomplete__wrap" v-if="showAutocomplete">
+        <ul class="autocomplete">
+          <li
+            v-for="(item, idx) in autocompleteList"
+            :key="idx"
+            :class="{ active: currentHoverItem === idx }"
+            class="autocomplete-item"
+            @mouseover="currentHoverItem = idx"
+            @mouseleave="currentHoverItem = -1"
+            @click="routeSummonerName(item.name)"
+          >
+            <img
+              class="summoner-img"
+              :src="item.profileImageUrl"
+              :alt="'profile-img-' + item.name"
+            />
+            <div class="summoner-info">
+              <div class="summoner-name">{{ item.name }}</div>
+              <div class="tier">{{ item.tier }}</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="history" v-else>
+        <tabs class="search-tab">
+          <tab-pane :name="$t('search.recent')">
+            <div class="no-result" v-if="searchHistory.length <= 0">
+              <i class="icon icon-info"></i>
+              <span class="no-result__text" v-html="$t('search.no_recent')">
+              </span>
+            </div>
+            <ul class="search-history" v-else>
+              <li
+                class="search-history-item"
+                v-for="(item, idx) in searchHistory"
+                :key="idx"
               >
-              <div class="actions">
-                <span class="favorite" @click="setFavorite(item)">
-                  <i v-if="item.favorite" class="icon icon-favorite-on"></i>
-                  <i v-else class="icon icon-favorite-off"></i>
-                </span>
-                <span
-                  class="remove"
-                  @click="deleteSearchHistory(item.summonerName)"
-                  ><i class="icon icon-close"></i
-                ></span>
-              </div>
-            </li>
-          </ul>
-        </tab-pane>
-        <tab-pane :name="$t('search.favorites')">
-          <div class="no-result" v-if="favoriteSearchHistory.length <= 0">
-            <i class="icon icon-info"></i>
-            <span class="no-result__text" v-html="$t('search.no_favorite')">
-            </span>
-          </div>
-          <ul class="search-history" v-else>
-            <li
-              class="search-history-item"
-              v-for="(item, idx) in sortedFavoriteSearchHistory"
-              :key="idx"
-            >
-              <router-link :to="`/summoner/${item}`" class="summoner-name">{{
-                item
-              }}</router-link>
-              <div class="actions">
-                <span @click="deleteFavorite(item)" class="remove"
-                  ><i class="icon icon-close"></i
-                ></span>
-              </div>
-            </li>
-          </ul>
-        </tab-pane>
-      </tabs>
+                <router-link
+                  :to="`/summoner/${item.summonerName}`"
+                  class="summoner-name"
+                  >{{ item.summonerName }}</router-link
+                >
+                <div class="actions">
+                  <span class="favorite" @click="setFavorite(item)">
+                    <i v-if="item.favorite" class="icon icon-favorite-on"></i>
+                    <i v-else class="icon icon-favorite-off"></i>
+                  </span>
+                  <span
+                    class="remove"
+                    @click="deleteSearchHistory(item.summonerName)"
+                    ><i class="icon icon-close"></i
+                  ></span>
+                </div>
+              </li>
+            </ul>
+          </tab-pane>
+          <tab-pane :name="$t('search.favorites')">
+            <div class="no-result" v-if="favoriteSearchHistory.length <= 0">
+              <i class="icon icon-info"></i>
+              <span class="no-result__text" v-html="$t('search.no_favorite')">
+              </span>
+            </div>
+            <ul class="search-history" v-else>
+              <li
+                class="search-history-item"
+                v-for="(item, idx) in sortedFavoriteSearchHistory"
+                :key="idx"
+              >
+                <router-link :to="`/summoner/${item}`" class="summoner-name">{{
+                  item
+                }}</router-link>
+                <div class="actions">
+                  <span @click="deleteFavorite(item)" class="remove"
+                    ><i class="icon icon-close"></i
+                  ></span>
+                </div>
+              </li>
+            </ul>
+          </tab-pane>
+        </tabs>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import _ from "lodash";
+
+import { getSummoner } from "@/api";
+import { getUnique } from "@/utils";
+
 import Tabs from "@/components/common/Tabs";
 import TabPane from "@/components/common/TabPane";
-
-import { getUnique } from "@/utils";
 
 export default {
   components: { Tabs, TabPane },
@@ -89,11 +120,22 @@ export default {
     return {
       searchVal: "",
       dropdownActive: false,
+      lastSearchVal: "",
+      currentHoverItem: -1,
+      autocompleteList: [],
       searchHistory: [],
       favoriteSearchHistory: [],
     };
   },
   computed: {
+    showAutocomplete() {
+      return (
+        this.dropdownActive &&
+        this.searchVal &&
+        this.autocompleteList &&
+        this.autocompleteList.length > 0
+      );
+    },
     sortedFavoriteSearchHistory() {
       return this.favoriteSearchHistory.slice().sort((a, b) => a - b);
     },
@@ -111,12 +153,82 @@ export default {
     window.removeEventListener("click", this.closeDropdown);
   },
   methods: {
+    routeSummonerName(summonerName) {
+      this.currentHoverItem = -1;
+      this.$router.push(`/summoner/${summonerName}`).catch(() => {});
+      this.closeDropdown();
+    },
     setDropdownActive(val) {
       this.dropdownActive = val;
     },
     closeDropdown() {
+      this.$refs.searchInput.blur();
       this.dropdownActive = false;
     },
+    getTierRankString(summoner) {
+      const hasTier = summoner.leagues.find((x) => x.hasResults);
+
+      if (hasTier) {
+        let division = hasTier.tierRank.tierDivision;
+        let tierNum = hasTier.tierRank.shortString.match(/\d+/g);
+        return `${division}${tierNum && " " + tierNum[0]} - ${
+          hasTier.tierRank.lp
+        }LP`;
+      }
+
+      return `LEVEL ${summoner.level}`;
+    },
+    handleArrowUpKey(e) {
+      e.preventDefault();
+      if (!this.showAutocomplete) return false;
+      if (this.currentHoverItem != 0 && this.currentHoverItem != -1) {
+        this.currentHoverItem -= 1;
+        this.searchVal = this.autocompleteList[this.currentHoverItem].name;
+      }
+
+      return false;
+    },
+    handleArrowDownKey(e) {
+      e.preventDefault();
+      if (!this.showAutocomplete) return false;
+      if (this.currentHoverItem == -1) {
+        this.currentHoverItem = 0;
+        return false;
+      }
+
+      if (this.currentHoverItem + 1 < this.autocompleteList.length) {
+        this.currentHoverItem += 1;
+        this.searchVal = this.autocompleteList[this.currentHoverItem].name;
+      }
+
+      return false;
+    },
+    handleInput: _.debounce(async function (e) {
+      const val = e.target.value.replace(/ /g, "");
+      if (
+        ((e.inputType !== "deleteContentBackward" ||
+          e.inputType !== "deleteContentForward") &&
+          val === this.lastSearchVal) ||
+        !val
+      ) {
+        this.currentHoverItem = -1;
+        return false;
+      }
+      this.lastSearchVal = val;
+
+      const res = await getSummoner(val);
+      if (res.summoner) {
+        this.autocompleteList = [
+          {
+            ...res.summoner,
+          },
+        ].map((x) => ({
+          profileImageUrl: x.profileImageUrl,
+          name: x.name,
+          tier: this.getTierRankString(x),
+        }));
+      }
+    }, 200),
     getLocalStorageObject(key) {
       try {
         const obj = JSON.parse(localStorage.getItem(key)) || [];
@@ -150,6 +262,7 @@ export default {
       );
     },
     addSearchHistory(summonerName) {
+      if (!summonerName) return false;
       let searchHistory = this.getLocalStorageObject("searchHistory");
       let existItem = searchHistory.find(
         (x) => x.summonerName === summonerName
@@ -213,8 +326,7 @@ export default {
     search(searchVal) {
       this.addSearchHistory(searchVal);
 
-      this.$refs.searchInput.blur();
-      this.dropdownActive = false;
+      this.closeDropdown();
 
       this.$router
         .push({
@@ -269,6 +381,48 @@ export default {
     top: 36px;
     left: 0;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 50%);
+  }
+
+  .autocomplete {
+    list-style: none;
+    &__wrap {
+      padding-top: 10px;
+      background-color: #fff;
+    }
+    .autocomplete-item {
+      display: flex;
+      padding: 7px 17px;
+      box-sizing: border-box;
+      cursor: pointer;
+
+      &.active {
+        background-color: #e8f5fb;
+      }
+
+      .summoner-img {
+        width: 36px;
+        height: 36px;
+        margin-right: 14px;
+        border-radius: 50%;
+      }
+
+      .summoner-info {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
+
+        .summoner-name {
+          font-size: 14px;
+          color: #333;
+        }
+
+        .tier {
+          font-size: 12px;
+          color: #666;
+        }
+      }
+    }
   }
 
   .search-history {

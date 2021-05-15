@@ -9,11 +9,11 @@ import HighchartsVue from "highcharts-vue";
 Vue.use(HighchartsVue);
 
 import Skeleton from "@/components/common/Skeleton";
-Vue.component('skeleton', Skeleton);
+Vue.component("skeleton", Skeleton);
 
 Vue.config.productionTip = false;
 
-new Vue({
+window.vue = new Vue({
   i18n,
   router,
   store,
