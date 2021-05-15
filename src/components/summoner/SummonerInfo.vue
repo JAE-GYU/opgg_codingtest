@@ -2,43 +2,83 @@
   <section id="summoner-info">
     <div class="container">
       <div class="tags__wrap">
-        <span class="tag">
-          <span class="season">S3</span>
-          <span class="rank"> Bronze</span>
-        </span>
-        <span class="tag">
-          <span class="season">S4</span>
-          <span class="rank"> Silver</span>
-        </span>
-        <span class="tag">
-          <span class="season">S5</span>
-          <span class="rank"> Gold</span>
-        </span>
+        <template v-if="loading">
+          <skeleton tagName="span" width="50px" height="22px" />
+          <skeleton tagName="span" width="50px" height="22px" />
+          <skeleton tagName="span" width="50px" height="22px" />
+        </template>
+        <template v-else>
+          <span class="tag">
+            <span class="season">S3</span>
+            <span class="rank"> Bronze</span>
+          </span>
+          <span class="tag">
+            <span class="season">S4</span>
+            <span class="rank"> Silver</span>
+          </span>
+          <span class="tag">
+            <span class="season">S5</span>
+            <span class="rank"> Gold</span>
+          </span>
+        </template>
       </div>
       <div class="profile">
         <div class="profile-img">
-          <img
-            class="profile-img__border"
-            src="https://opgg-static.akamaized.net/images/borders2/challenger.png"
-            alt="profile-border"
-          />
-          <img
-            class="profile-img__inner"
-            src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon1625.jpg"
-            alt="profile-img"
-          />
-          <span class="badge">32</span>
+          <skeleton
+            tagName="span"
+            width="100px"
+            height="100px"
+            :loading="loading"
+          >
+            <img
+              class="profile-img__border"
+              src="https://opgg-static.akamaized.net/images/borders2/challenger.png"
+              alt="profile-border"
+            />
+            <img
+              class="profile-img__inner"
+              src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon1625.jpg"
+              alt="profile-img"
+            />
+            <span class="badge">32</span>
+          </skeleton>
         </div>
         <div class="profile-info">
-          <div class="profile-info-name">플레이어아이디</div>
+          <div class="profile-info-name">
+            <skeleton
+              tag-name="span"
+              :loading="loading"
+              width="130px"
+              height="24px"
+            >
+              플레이어 아이디
+            </skeleton>
+          </div>
           <div class="profile-info-rank mt-4">
-            레더 랭킹 363,499위 (상위 40.7%)
+            <skeleton
+              tag-name="span"
+              :loading="loading"
+              width="150px"
+              height="13px"
+            >
+              레더 랭킹 363,499위 (상위 40.7%)
+            </skeleton>
           </div>
         </div>
       </div>
     </div>
   </section>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      loading: false,
+    };
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 #summoner-info {
@@ -54,6 +94,11 @@
   .tags__wrap {
     display: flex;
     padding-left: 12px;
+
+    .tag + .tag,
+    .skeleton + .skeleton {
+      margin-left: 7px;
+    }
   }
 
   .tag {
@@ -78,17 +123,17 @@
     }
   }
 
-  .tag + .tag {
-    margin-left: 7px;
-  }
-
   .profile {
     display: flex;
     padding-top: 6px;
+
     &-img {
       width: 120px;
       height: 120px;
       position: relative;
+      .skeleton {
+        margin: 10px;
+      }
       &__inner {
         width: 100%;
         height: 100%;
@@ -124,7 +169,7 @@
     &-info {
       padding-top: 11px;
       padding-left: 17px;
-      &-name {
+      &-name span {
         font-size: 20px;
         font-weight: bold;
         letter-spacing: -0.77px;

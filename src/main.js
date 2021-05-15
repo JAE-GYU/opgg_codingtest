@@ -8,6 +8,9 @@ import i18n from "@/i18n";
 import HighchartsVue from "highcharts-vue";
 Vue.use(HighchartsVue);
 
+import Skeleton from "@/components/common/Skeleton";
+Vue.component('skeleton', Skeleton);
+
 Vue.config.productionTip = false;
 
 new Vue({
