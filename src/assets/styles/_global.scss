@@ -10,6 +10,38 @@ html, body {
   height: 100%;
 }
 
+.mt-2 {
+  margin-top: 2px;
+}
+
+.mt-3 {
+  margin-top: 3px;
+}
+
+.mt-4 {
+  margin-top: 4px;
+}
+
+.mt-6 {
+  margin-top: 6px;
+}
+
+.mt-8 {
+  margin-top: 8px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-d-column {
+  flex-direction: column;
+}
+
+.flex-d-row {
+  flex-direction: row;
+}
+
 .container {
   width: 100%;
   max-width: 1000px;
@@ -36,4 +68,24 @@ html, body {
   flex-grow: 0;
   flex-shrink: 0;
   border-radius: 50%;
+}
+
+.kda,
+.kda-ratio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Helvetica;
+  white-space: pre;
+}
+
+.kda span {
+  font-size: 11px;
+  font-weight: bold;
+
+  &.divider {
+    font-family: Helvetica;
+    font-size: 11px;
+    color: #999;
+  }
 }

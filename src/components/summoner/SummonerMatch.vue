@@ -13,16 +13,19 @@
     </div>
     <div class="match__wrap">
       <summoner-overview></summoner-overview>
+      <game-list></game-list>
     </div>
   </div>
 </template>
 
 <script>
 import SummonerOverview from "@/components/summoner/SummonerOverview";
+import GameList from "@/components/summoner/GameList";
 
 export default {
   components: {
     SummonerOverview,
+    GameList,
   },
 };
 </script>

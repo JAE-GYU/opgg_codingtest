@@ -1,6 +1,6 @@
 <template>
   <div class="match-overview">
-    <div class="win-ratio">
+    <div class="summary">
       <div class="chart__wrap">
         <span class="overview-title">{{
           $t("label.total_win_lose", { total: 70, win: 23, lose: 47 })
@@ -18,14 +18,14 @@
           <span class="divider">/</span>
           <span class="assist"> 14.1</span>
         </span>
-        <span class="kda-ratio">
+        <span class="kda-ratio mt-6">
           <span><span class="accent color-green">3.73</span>:1</span>
           <span class="percentage color-red"> (58%)</span>
         </span>
       </div>
     </div>
     <div class="most-champion">
-      <div class="most-item">
+      <div class="most__wrap">
         <img
           class="champion-img"
           src="https://opgg-static.akamaized.net/images/lol/champion/Anivia.png?image=w_30&v=1"
@@ -33,7 +33,7 @@
         />
         <div class="most-info">
           <span class="name">애니비아</span>
-          <div class="most-datail">
+          <div class="most-detail mt-3">
             <div class="percentage color-red">70%</div>
             <div class="ratio">
               ({{ $t("label.win_lose", { win: 7, lose: 3 }) }})
@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-      <div class="most-item">
+      <div class="most__wrap">
         <img
           class="champion-img"
           src="https://opgg-static.akamaized.net/images/lol/champion/Anivia.png?image=w_30&v=1"
@@ -51,7 +51,7 @@
         />
         <div class="most-info">
           <span class="name">애니비아</span>
-          <div class="most-datail">
+          <div class="most-detail mt-3">
             <div class="percentage color-red">70%</div>
             <div class="ratio">
               ({{ $t("label.win_lose", { win: 7, lose: 3 }) }})
@@ -61,7 +61,7 @@
           </div>
         </div>
       </div>
-      <div class="most-item">
+      <div class="most__wrap">
         <img
           class="champion-img"
           src="@/assets/images/no_champion.png"
@@ -74,15 +74,15 @@
     </div>
     <div class="most-position">
       <span class="overview-title">{{ $t("label.prefer_position") }}</span>
-      <div class="most-item">
+      <div class="most__wrap">
         <img
           class="position-img"
-          src="@/assets/images/icon-mostposition-mid.png"
+          src="@/assets/images/position/mid.png"
           alt="most-champion-name"
         />
         <div class="most-info">
           <span class="name">{{ $t("position.mid") }}</span>
-          <div class="most-datail">
+          <div class="most-detail mt-3">
             <div class="percentage color-blue">70%</div>
             <div class="divider"></div>
             <div class="wr">
@@ -92,15 +92,15 @@
           </div>
         </div>
       </div>
-      <div class="most-item">
+      <div class="most__wrap">
         <img
           class="position-img"
-          src="@/assets/images/icon-mostposition-top.png"
+          src="@/assets/images/position/top.png"
           alt="most-champion-name"
         />
         <div class="most-info">
           <span class="name">{{ $t("position.top") }}</span>
-          <div class="most-datail">
+          <div class="most-detail mt-3">
             <div class="percentage color-blue">30%</div>
             <div class="divider"></div>
             <div class="wr">
@@ -183,6 +183,7 @@ export default {
   border-width: 0 1px 1px 1px;
   border-style: solid;
   border-color: #cdd2d2;
+  margin-bottom: 8px;
 
   .overview-title {
     font-family: Helvetica;
@@ -190,17 +191,17 @@ export default {
     color: #666666;
   }
 
-  .win-ratio,
+  .summary,
   .most-champion,
   .most-position {
     box-sizing: border-box;
   }
 
-  .win-ratio {
+  .summary {
     display: flex;
     flex: 1;
     padding: 16px 24px;
-    &-chart {
+    .win-ratio-chart {
       width: 90px;
       height: 90px;
       margin-top: 14px;
@@ -230,29 +231,7 @@ export default {
       flex-direction: column;
       align-self: center;
 
-      .kda,
       .kda-ratio {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: Helvetica;
-        white-space: pre;
-      }
-
-      .kda span {
-        font-size: 11px;
-        font-weight: bold;
-      }
-
-      .divider {
-        font-family: Helvetica;
-        font-size: 11px;
-        color: #999;
-      }
-
-      .kda-ratio {
-        margin-top: 6px;
-
         span {
           font-size: 16px;
           color: #333333;
@@ -265,7 +244,7 @@ export default {
     }
   }
 
-  .most-item {
+  .most__wrap {
     display: flex;
 
     .position-img {
@@ -274,7 +253,7 @@ export default {
       align-self: center;
     }
 
-    & + .most-item {
+    & + .most__wrap {
       margin-top: 13px;
     }
 
@@ -297,9 +276,8 @@ export default {
         font-size: 14px;
         color: #333333;
       }
-      .most-datail {
+      .most-detail {
         display: flex;
-        margin-top: 3px;
 
         & > div {
           font-family: Helvetica;
@@ -347,7 +325,7 @@ export default {
     flex-basis: 184px;
     padding: 16px;
 
-    .most-item {
+    .most__wrap {
       margin-top: 22px;
     }
   }

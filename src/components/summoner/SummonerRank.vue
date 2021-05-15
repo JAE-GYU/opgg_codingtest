@@ -7,10 +7,10 @@
     />
     <div class="summoner-rank-info">
       <span class="rank-type">솔로 랭크</span>
-      <span class="most-position">탑 (총 27게임)</span>
-      <span class="tier">Platinum 1</span>
-      <span class="lp"><b>80 LP</b> / 28승 30패</span>
-      <span class="ratio">승률 51%</span>
+      <span class="most-position mt-4">탑 (총 27게임)</span>
+      <span class="tier mt-4">Platinum 1</span>
+      <span class="lp mt-6"><b>80 LP</b> / 28승 30패</span>
+      <span class="ratio mt-3">승률 51%</span>
     </div>
   </div>
   <div class="summoner-rank unranked" v-else>
@@ -21,7 +21,7 @@
     />
     <div class="summoner-rank-info">
       <span class="rank-type">자유 5:5 랭크</span>
-      <span class="unranked">Unranked</span>
+      <span class="unranked mt-2">Unranked</span>
     </div>
   </div>
 </template>
@@ -60,7 +60,6 @@ export default {
     margin-left: 8px;
 
     .unranked {
-      margin-top: 2px;
       font-family: Helvetica;
       font-weight: bold;
       font-size: 13px;
@@ -73,13 +72,11 @@ export default {
     }
 
     .most-position {
-      margin-top: 4px;
       font-size: 12px;
       color: #353a3a;
     }
 
     .tier {
-      margin-top: 4px;
       font-family: Helvetica;
       font-size: 15px;
       font-weight: bold;
@@ -87,7 +84,6 @@ export default {
     }
 
     .lp {
-      margin-top: 6px;
       font-family: Helvetica;
       font-family: 12px;
       color: #879292;
@@ -98,7 +94,6 @@ export default {
     }
 
     .ratio {
-      margin-top: 3px;
       font-family: Helvetica;
       font-size: 12px;
       color: #879292;

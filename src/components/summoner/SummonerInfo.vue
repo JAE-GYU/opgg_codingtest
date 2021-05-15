@@ -31,7 +31,9 @@
         </div>
         <div class="profile-info">
           <div class="profile-info-name">플레이어아이디</div>
-          <div class="profile-info-rank">레더 랭킹 363,499위 (상위 40.7%)</div>
+          <div class="profile-info-rank mt-4">
+            레더 랭킹 363,499위 (상위 40.7%)
+          </div>
         </div>
       </div>
     </div>
@@ -130,7 +132,6 @@
       }
 
       &-rank {
-        margin-top: 4px;
         font-size: 11px;
         color: #657070;
       }
