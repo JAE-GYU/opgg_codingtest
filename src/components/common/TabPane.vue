@@ -19,3 +19,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.tab-pane {
+  background-color: #ededed;
+}
+</style>

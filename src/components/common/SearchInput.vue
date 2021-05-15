@@ -1,71 +1,73 @@
 <template>
-  <div class="search-input">
+  <div class="search-input" @click.prevent.stop>
     <input
       id="search"
       class="search-input__inner"
       type="text"
       name="search"
-      :placeholder="$t('search.placeholder')"
       autocomplete="off"
+      ref="searchInput"
+      v-model="searchVal"
+      :placeholder="$t('search.placeholder')"
+      @focus="setDropdownActive(true)"
+      @keydown.enter="search(searchVal)"
     />
-    <div class="search-input__btn">
+    <button class="search-input__btn" @click="search(searchVal)">
       <img src="@/assets/images/search.png" alt="search-btn" />
-    </div>
+    </button>
 
-    <div class="search-input__dropdown">
+    <div class="search-input__dropdown" v-show="dropdownActive">
       <tabs class="search-tab">
         <tab-pane :name="$t('search.recent')">
-          <!-- <div class="no-result">
+          <div class="no-result" v-if="searchHistory.length <= 0">
             <i class="icon icon-info"></i>
             <span class="no-result__text" v-html="$t('search.no_recent')">
             </span>
-          </div> -->
-          <ul class="search-list">
-            <li class="search-list-item">
-              <router-link to="/" class="summoner-name"
-                >용인기흥구신재규</router-link
+          </div>
+          <ul class="search-history" v-else>
+            <li
+              class="search-history-item"
+              v-for="(item, idx) in searchHistory"
+              :key="idx"
+            >
+              <router-link
+                :to="`/summoner/${item.summonerName}`"
+                class="summoner-name"
+                >{{ item.summonerName }}</router-link
               >
               <div class="actions">
-                <span class="favorite"
-                  ><i class="icon icon-favorite-on"></i
+                <span class="favorite" @click="setFavorite(item)">
+                  <i v-if="item.favorite" class="icon icon-favorite-on"></i>
+                  <i v-else class="icon icon-favorite-off"></i>
+                </span>
+                <span
+                  class="remove"
+                  @click="deleteSearchHistory(item.summonerName)"
+                  ><i class="icon icon-close"></i
                 ></span>
-                <span class="remove"><i class="icon icon-close"></i></span>
-              </div>
-            </li>
-            <li class="search-list-item">
-              <router-link to="/" class="summoner-name"
-                >용인기흥구신재규</router-link
-              >
-              <div class="actions">
-                <span class="favorite"
-                  ><i class="icon icon-favorite-on"></i
-                ></span>
-                <span class="remove"><i class="icon icon-close"></i></span>
               </div>
             </li>
           </ul>
         </tab-pane>
         <tab-pane :name="$t('search.favorites')">
-          <!-- <div class="no-result">
+          <div class="no-result" v-if="favoriteSearchHistory.length <= 0">
             <i class="icon icon-info"></i>
             <span class="no-result__text" v-html="$t('search.no_favorite')">
             </span>
-          </div> -->
-          <ul class="search-list">
-            <li class="search-list-item">
-              <router-link to="/" class="summoner-name"
-                >용인기흥구신재규</router-link
-              >
+          </div>
+          <ul class="search-history" v-else>
+            <li
+              class="search-history-item"
+              v-for="(item, idx) in sortedFavoriteSearchHistory"
+              :key="idx"
+            >
+              <router-link :to="`/summoner/${item}`" class="summoner-name">{{
+                item
+              }}</router-link>
               <div class="actions">
-                <span class="remove"><i class="icon icon-close"></i></span>
-              </div>
-            </li>
-            <li class="search-list-item">
-              <router-link to="/" class="summoner-name"
-                >용인기흥구신재규</router-link
-              >
-              <div class="actions">
-                <span class="remove"><i class="icon icon-close"></i></span>
+                <span @click="deleteFavorite(item)" class="remove"
+                  ><i class="icon icon-close"></i
+                ></span>
               </div>
             </li>
           </ul>
@@ -79,8 +81,149 @@
 import Tabs from "@/components/common/Tabs";
 import TabPane from "@/components/common/TabPane";
 
+import { getUnique } from "@/utils";
+
 export default {
   components: { Tabs, TabPane },
+  data() {
+    return {
+      searchVal: "",
+      dropdownActive: false,
+      searchHistory: [],
+      favoriteSearchHistory: [],
+    };
+  },
+  computed: {
+    sortedFavoriteSearchHistory() {
+      return this.favoriteSearchHistory.slice().sort((a, b) => a - b);
+    },
+  },
+  watch: {
+    $route() {
+      this.initSearchHistory();
+    },
+  },
+  created() {
+    window.addEventListener("click", this.closeDropdown);
+    this.initSearchHistory();
+  },
+  beforeDestroy() {
+    window.removeEventListener("click", this.closeDropdown);
+  },
+  methods: {
+    setDropdownActive(val) {
+      this.dropdownActive = val;
+    },
+    closeDropdown() {
+      this.dropdownActive = false;
+    },
+    getLocalStorageObject(key) {
+      try {
+        const obj = JSON.parse(localStorage.getItem(key)) || [];
+        return obj;
+      } catch {
+        return [];
+      }
+    },
+    initSearchHistory() {
+      this.searchHistory = getUnique(
+        this.getLocalStorageObject("searchHistory"),
+        "summonerName"
+      );
+
+      this.favoriteSearchHistory = [
+        ...new Set([
+          ...this.getLocalStorageObject("favoriteSearchHistory"),
+          ...this.searchHistory
+            .filter((x) => x.favorite)
+            .map((x) => x.summonerName),
+        ]),
+      ];
+
+      this.setCurrentSearchHistory();
+    },
+    setCurrentSearchHistory() {
+      localStorage.setItem("searchHistory", JSON.stringify(this.searchHistory));
+      localStorage.setItem(
+        "favoriteSearchHistory",
+        JSON.stringify(this.favoriteSearchHistory)
+      );
+    },
+    addSearchHistory(summonerName) {
+      let searchHistory = this.getLocalStorageObject("searchHistory");
+      let existItem = searchHistory.find(
+        (x) => x.summonerName === summonerName
+      );
+      let favorite = existItem ? existItem.favorite : false;
+
+      if (existItem) {
+        searchHistory = searchHistory.filter(
+          (x) => x.summonerName !== summonerName
+        );
+      }
+
+      searchHistory = [
+        {
+          summonerName,
+          favorite,
+        },
+        ...searchHistory,
+      ].splice(0, 9);
+
+      this.searchHistory = searchHistory;
+      this.setCurrentSearchHistory();
+    },
+    deleteSearchHistory(summonerName) {
+      const searchHistory = this.getLocalStorageObject("searchHistory").filter(
+        (x) => x.summonerName !== summonerName
+      );
+
+      this.searchHistory = searchHistory;
+      this.setCurrentSearchHistory();
+    },
+    setFavorite(item) {
+      this.searchHistory.find(
+        (x) => x.summonerName === item.summonerName
+      ).favorite = !item.favorite;
+
+      if (item.favorite) {
+        this.favoriteSearchHistory.push(item.summonerName);
+      } else {
+        this.favoriteSearchHistory = this.favoriteSearchHistory.filter(
+          (x) => x !== item.summonerName
+        );
+      }
+
+      this.setCurrentSearchHistory();
+    },
+    deleteFavorite(summonerName) {
+      this.favoriteSearchHistory = this.favoriteSearchHistory.filter(
+        (x) => x !== summonerName
+      );
+
+      const findHistory = this.searchHistory.find(
+        (x) => x.summonerName === summonerName
+      );
+      if (findHistory) {
+        findHistory.favorite = false;
+      }
+
+      this.setCurrentSearchHistory();
+    },
+    search(searchVal) {
+      this.addSearchHistory(searchVal);
+
+      this.$refs.searchInput.blur();
+      this.dropdownActive = false;
+
+      this.$router
+        .push({
+          name: "Summoner",
+          params: { userName: searchVal },
+        })
+        .catch(() => {});
+    },
+  },
 };
 </script>
 
@@ -111,6 +254,10 @@ export default {
     width: 30px;
     display: flex;
     align-items: center;
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
     img {
       width: 100%;
     }
@@ -124,7 +271,7 @@ export default {
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 50%);
   }
 
-  .search-list {
+  .search-history {
     list-style: none;
     padding: 5px 20px 20px 20px;
     box-sizing: border-box;

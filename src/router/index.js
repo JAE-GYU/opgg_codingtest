@@ -16,10 +16,10 @@ const routes = [
   {
     path: "/summoner",
     component: Layout,
-    name: "Summoner",
     children: [
       {
         path: ":userName",
+        name: "Summoner",
         component: Summoner,
       },
     ],

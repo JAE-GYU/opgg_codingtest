@@ -12,6 +12,15 @@ export function getCookie(cName) {
   return unescape(cValue);
 }
 
+export function getUnique(arr, key) {
+  return arr.reduce((unique, o) => {
+    if (!unique.some((obj) => obj[key] === o[key])) {
+      unique.push(o);
+    }
+    return unique;
+  }, []);
+}
+
 export default {
   getCookie,
 };
