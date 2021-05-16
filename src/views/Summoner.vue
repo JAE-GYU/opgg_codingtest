@@ -23,12 +23,23 @@ import SummonerRank from "@/components/summoner/SummonerRank";
 import SummonerMatch from "@/components/summoner/SummonerMatch";
 import SummonerMost from "@/components/summoner/SummonerMost";
 
+import { FETCH_SUMMONER } from "@/store/actions.type";
+
 export default {
   components: {
     SummonerInfo,
     SummonerRank,
     SummonerMost,
     SummonerMatch,
+  },
+  watch: {
+    "$route.params.summonerName": {
+      immediate: true,
+      async handler(summonerName) {
+        if (!summonerName) this.$router.push({ name: "NoSummoner" });
+        await this.$store.dispatch(FETCH_SUMMONER, summonerName);
+      },
+    },
   },
 };
 </script>

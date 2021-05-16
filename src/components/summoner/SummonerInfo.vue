@@ -77,8 +77,6 @@
 
 <script>
 import { mapState } from "vuex";
-import { FETCH_SUMMONER } from "@/store/actions.type";
-
 export default {
   computed: {
     ...mapState({
@@ -91,15 +89,6 @@ export default {
             .slice()
             .sort((a, b) => a.season - b.season)
         : [];
-    },
-  },
-  watch: {
-    "$route.params.summonerName": {
-      immediate: true,
-      async handler(summonerName) {
-        if (!summonerName) this.$router.push({ name: "NoSummoner" });
-        await this.$store.dispatch(FETCH_SUMMONER, summonerName);
-      },
     },
   },
 };
