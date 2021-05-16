@@ -193,6 +193,7 @@ export default {
 
     &-info {
       display: flex;
+      flex: 1;
       align-items: center;
       padding-left: 10px;
       box-sizing: border-box;
@@ -214,7 +215,9 @@ export default {
       }
 
       .win-ratio {
+        flex: 1;
         font-family: Helvetica;
+        text-align: center;
         color: #879292;
       }
 
@@ -222,7 +225,7 @@ export default {
         width: 123px;
         height: 24px;
         border-radius: 4px;
-        margin-left: 12px;
+        margin-left: auto;
         overflow: hidden;
         display: flex;
 
