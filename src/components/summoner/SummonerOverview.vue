@@ -1,121 +1,187 @@
 <template>
-  <div class="match-overview">
-    <div class="summary">
-      <div class="chart__wrap">
-        <span class="overview-title">{{
-          $t("label.total_win_lose", { total: 70, win: 23, lose: 47 })
-        }}</span>
+  <skeleton
+    tagName="div"
+    className="match-overview"
+    height="194px"
+    :loading="loading"
+    :style="{ marginBottom: '8px' }"
+  >
+    <template>
+      <div class="summary" v-if="matches.summary">
         <div class="chart__wrap">
-          <highcharts class="win-ratio-chart" :options="chartOptions" />
-          <span class="win-ratio-text">32%</span>
-        </div>
-      </div>
-      <div class="ratio-detail">
-        <span class="kda">
-          <span class="kill">25.9 </span>
-          <span class="divider">/</span>
-          <span class="death color-red"> 15.8 </span>
-          <span class="divider">/</span>
-          <span class="assist"> 14.1</span>
-        </span>
-        <span class="kda-ratio mt-6">
-          <span><span class="accent color-green">3.73</span>:1</span>
-          <span class="percentage color-red"> (58%)</span>
-        </span>
-      </div>
-    </div>
-    <div class="most-champion">
-      <div class="most__wrap">
-        <img
-          class="champion-img"
-          src="https://opgg-static.akamaized.net/images/lol/champion/Anivia.png?image=w_30&v=1"
-          alt="most-champion-name"
-        />
-        <div class="most-info">
-          <span class="name">애니비아</span>
-          <div class="most-detail mt-3">
-            <div class="percentage color-red">70%</div>
-            <div class="ratio">
-              ({{ $t("label.win_lose", { win: 7, lose: 3 }) }})
-            </div>
-            <div class="divider"></div>
-            <div class="kda">13.01 {{ $t("label.kda") }}</div>
+          <span class="overview-title">{{
+            $t("label.total_win_lose", {
+              total: matches.summary.wins + matches.summary.losses,
+              win: matches.summary.wins,
+              lose: matches.summary.losses,
+            })
+          }}</span>
+          <div class="chart__wrap">
+            <highcharts class="win-ratio-chart" :options="chartOptions" />
+            <span class="win-ratio-text"
+              >{{ getWinRatio(matches.summary) }}%</span
+            >
           </div>
         </div>
-      </div>
-      <div class="most__wrap">
-        <img
-          class="champion-img"
-          src="https://opgg-static.akamaized.net/images/lol/champion/Anivia.png?image=w_30&v=1"
-          alt="most-champion-name"
-        />
-        <div class="most-info">
-          <span class="name">애니비아</span>
-          <div class="most-detail mt-3">
-            <div class="percentage color-red">70%</div>
-            <div class="ratio">
-              ({{ $t("label.win_lose", { win: 7, lose: 3 }) }})
-            </div>
-            <div class="divider"></div>
-            <div class="kda">13.01 {{ $t("label.kda") }}</div>
-          </div>
+        <div class="ratio-detail">
+          <span class="kda">
+            <span class="kill">{{ matches.summary.kills }} </span>
+            <span class="divider">/</span>
+            <span class="death color-red"> {{ matches.summary.deaths }} </span>
+            <span class="divider">/</span>
+            <span class="assist"> {{ matches.summary.assists }}</span>
+          </span>
+          <span class="kda-ratio mt-6">
+            <span
+              ><span class="accent" :class="getKdaColor(matches.summary)">{{
+                getKdaScore(matches.summary)
+              }}</span
+              >:1</span
+            >
+            <span class="percentage color-red">
+              ({{ getContributionForKillRateAvg }}%)</span
+            >
+          </span>
         </div>
       </div>
-      <div class="most__wrap">
-        <img
-          class="champion-img"
-          src="@/assets/images/no_champion.png"
-          alt="no-champion"
-        />
-        <div class="most-info">
-          <div class="no-champion">{{ $t("label.no_champion") }}</div>
-        </div>
-      </div>
-    </div>
-    <div class="most-position">
-      <span class="overview-title">{{ $t("label.prefer_position") }}</span>
-      <div class="most__wrap">
-        <img
-          class="position-img"
-          src="@/assets/images/position/mid.png"
-          alt="most-champion-name"
-        />
-        <div class="most-info">
-          <span class="name">{{ $t("position.mid") }}</span>
-          <div class="most-detail mt-3">
-            <div class="percentage color-blue">70%</div>
-            <div class="divider"></div>
-            <div class="wr">
-              {{ $t("label.wr") }}
-              <div>33%</div>
+      <div class="most-champion" v-if="matches.champions">
+        <div
+          class="most__wrap"
+          v-for="(item, idx) in getMergeGroupChampion"
+          :key="idx"
+        >
+          <img class="champion-img" :src="item.imageUrl" :alt="item.name" />
+          <div class="most-info">
+            <span class="name">{{ item.name }}</span>
+            <div class="most-detail mt-3">
+              <div class="percentage" :class="getWinRatioColor(item)">
+                {{ getWinRatio(item) }}%
+              </div>
+              <div class="ratio">
+                ({{
+                  $t("label.win_lose", { win: item.wins, lose: item.losses })
+                }})
+              </div>
+              <div class="divider"></div>
+              <div class="kda" :class="getKdaScoreColor(item)">
+                {{ getKdaScore(item) }} {{ $t("label.kda") }}
+              </div>
             </div>
           </div>
         </div>
+        <div
+          class="most__wrap"
+          v-for="(item, idx) in 3 - getMergeGroupChampion.length"
+          :key="'no-champion-' + idx"
+        >
+          <img
+            class="champion-img"
+            src="@/assets/images/no_champion.png"
+            alt="no-champion"
+          />
+          <div class="most-info">
+            <div class="no-champion">{{ $t("label.no_champion") }}</div>
+          </div>
+        </div>
       </div>
-      <div class="most__wrap">
-        <img
-          class="position-img"
-          src="@/assets/images/position/top.png"
-          alt="most-champion-name"
-        />
-        <div class="most-info">
-          <span class="name">{{ $t("position.top") }}</span>
-          <div class="most-detail mt-3">
-            <div class="percentage color-blue">30%</div>
-            <div class="divider"></div>
-            <div class="wr">
-              {{ $t("label.wr") }}
-              <div>50%</div>
+      <div class="most-position" v-if="matches.positions">
+        <span class="overview-title">{{ $t("label.prefer_position") }}</span>
+        <div class="d-flex">
+          <div
+            class="most__wrap"
+            v-for="(item, idx) in getMergeGroupPosition"
+            :key="idx"
+          >
+            <img
+              class="position-img"
+              :src="
+                require(`@/assets/images/position/${item.position.toLowerCase()}.png`)
+              "
+              alt="most-champion-name"
+            />
+            <div class="most-info">
+              <span class="name">{{
+                $t(`position.${item.position.toLowerCase()}`)
+              }}</span>
+              <div class="most-detail mt-3">
+                <div class="percentage color-blue">
+                  {{
+                    Math.floor((item.games / matches.games.length) * 100) || 0
+                  }}%
+                </div>
+                <div class="divider"></div>
+                <div class="wr">
+                  {{ $t("label.wr") }}
+                  <div>{{ getWinRatio(item) }}%</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </skeleton>
 </template>
 
 <script>
+import {
+  getWinRatio,
+  getKdaScore,
+  getKdaScoreColor,
+  getKdaColor,
+  getWinRatioColor,
+  mergeGroupChampion,
+  mergeGroupPosition,
+} from "@/utils";
+
 export default {
+  props: {
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    matches: {
+      required: false,
+    },
+  },
+  computed: {
+    getContributionForKillRateAvg() {
+      if (!this.matches) return 0;
+      return (
+        this.matches.games.reduce((acc, current) => {
+          return Math.floor(
+            acc +
+              +current.stats.general.contributionForKillRate.match(/\d+/g)[0]
+          );
+        }, 0) / 20
+      ).toFixed(0);
+    },
+    getMergeGroupChampion() {
+      if (!this.matches) return [];
+      return mergeGroupChampion(this.matches.champions);
+    },
+    getMergeGroupPosition() {
+      if (!this.matches) return [];
+
+      return mergeGroupPosition(this.matches.positions);
+    },
+  },
+  watch: {
+    matches({ summary }) {
+      this.chartOptions.series[0].data = [
+        {
+          name: "lose",
+          y: summary.losses,
+          color: "#ee5a52",
+        },
+        {
+          name: "win",
+          y: summary.wins,
+          color: "#1f8ecd",
+        },
+      ];
+    },
+  },
   data() {
     return {
       chartOptions: {
@@ -145,18 +211,7 @@ export default {
         },
         series: [
           {
-            data: [
-              {
-                name: "lose",
-                y: 47,
-                color: "#ee5a52",
-              },
-              {
-                name: "win",
-                y: 23,
-                color: "#1f8ecd",
-              },
-            ],
+            data: [],
             dataLabels: {
               enabled: false,
             },
@@ -170,6 +225,14 @@ export default {
         howInLegend: true,
       },
     };
+  },
+  methods: {
+    getWinRatio,
+    getWinRatioColor,
+    getKdaScore,
+    getKdaScoreColor,
+    getKdaColor,
+    mergeGroupChampion,
   },
 };
 </script>
@@ -325,10 +388,19 @@ export default {
 
   .most-position {
     max-width: 184px;
+    display: flex;
+    flex-direction: column;
     flex-basis: 184px;
     padding: 16px;
 
+    & > .d-flex {
+      flex: 1;
+      justify-content: center;
+      flex-direction: column;
+    }
+
     .most__wrap {
+      height: 33px;
       margin-top: 22px;
     }
   }

@@ -8,6 +8,7 @@ label:
   total_win_lose: "{total}G {win}W {lose}L"
   kda: KDA
   played: played
+  no_results_recorded: There are no results recorded.
   no_champion: Not found Champion
   prefer_position: Preferred Position (Rank)
   ladder_rank: "Ladder Rank <b>{rank}</b> ( {percentage}% of top)"
@@ -17,6 +18,10 @@ game_type:
   solo_rank: Ranked Solo
   flex_rank: Ranked Flex
   flex_rank_short: Ranked Flex
+  match:
+    solo: Ranked Solo
+    flex: Flex 5:5 Rank
+    normal: Normal
 
 position:
   top: Top

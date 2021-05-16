@@ -24,16 +24,8 @@
                 <span class="info__text">CS {{ item.cs }}</span>
               </div>
               <div class="info__item">
-                <span
-                  class="info__text accent"
-                  :class="
-                    getKdaColor(
-                      ((item.kills + item.assists) / item.deaths).toFixed(2)
-                    )
-                  "
-                  >{{
-                    ((item.kills + item.assists) / item.deaths).toFixed(2)
-                  }}:1 {{ $t("label.kda") }}</span
+                <span class="info__text accent" :class="getKdaColor(item)"
+                  >{{ getKdaScore(item) }}:1 {{ $t("label.kda") }}</span
                 >
                 <span class="info__text"
                   >{{ (item.kills / item.games).toFixed(1) }} /
@@ -42,10 +34,8 @@
                 >
               </div>
               <div class="info__item">
-                <span
-                  class="info__text accent"
-                  :class="getWinRatioColor(item.wins, item.losses)"
-                  >{{ getWinRatio(item.wins, item.losses) }}%</span
+                <span class="info__text accent" :class="getWinRatioColor(item)"
+                  >{{ getWinRatio(item) }}%</span
                 >
                 <span class="info__text"
                   >{{ item.games }}{{ $t("label.played") }}</span
@@ -68,16 +58,14 @@
             <img class="champion-img" :src="item.imageUrl" :alt="item.name" />
             <div class="most-champion-week-info">
               <span class="champion-name">{{ item.name }}</span>
-              <span
-                class="win-ratio"
-                :class="getWinRatioColor(item.wins, item.losses)"
-                >{{ getWinRatio(item.wins, item.losses) }}%</span
+              <span class="win-ratio" :class="getWinRatioColor(item)"
+                >{{ getWinRatio(item) }}%</span
               >
               <div class="win-ratio-chart">
                 <div
                   class="win"
                   :style="{
-                    width: (getWinRatio(item.wins, item.losses) || 0) + '%',
+                    width: (getWinRatio(item) || 0) + '%',
                   }"
                 >
                   <span>{{ item.wins }}{{ $t("label.win") }}</span>
@@ -98,7 +86,12 @@
 import Tabs from "@/components/common/Tabs";
 import TabPane from "@/components/common/TabPane";
 
-import { getWinRatio, getKdaColor, getWinRatioColor } from "@/utils";
+import {
+  getWinRatio,
+  getKdaScore,
+  getKdaColor,
+  getWinRatioColor,
+} from "@/utils";
 
 export default {
   components: { Tabs, TabPane },
@@ -120,6 +113,7 @@ export default {
       this.activeName = val;
     },
     getWinRatio,
+    getKdaScore,
     getKdaColor,
     getWinRatioColor,
   },

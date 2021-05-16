@@ -8,15 +8,19 @@ label:
   total_win_lose: "{total}전 {win}승 {lose}패"
   kda: 평점
   played: 게임
+  no_results_recorded: 기록된 전적이 없습니다.
   no_champion: 챔피언 정보가 없습니다.
   prefer_position: 선호 포지션 (랭크)
   ladder_rank: "레더 랭킹 <b>{rank}</b>위 (상위 {percentage}%)"
 
 game_type:
   total: 전체
-  solo_rank: 솔로랭크
-  flex_rank: 자유 5:5 랭크
-  flex_rank_short: 자유랭크
+  solo_rank: 솔로랭크  
+  flex_rank: 자유 5:5 랭크  
+  match:    
+    solo: 솔랭
+    flex: 자유 5:5 랭크
+    normal: 일반
 
 position:
   top: 탑

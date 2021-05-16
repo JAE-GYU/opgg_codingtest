@@ -1,28 +1,34 @@
 <template>
   <div class="summoner-match">
-    <div class="match-tabs">
-      <div class="match-tab active">
-        <span>{{ $t("game_type.total") }}</span>
-      </div>
-      <div class="match-tab">
-        <span>{{ $t("game_type.solo_rank") }}</span>
-      </div>
-      <div class="match-tab">
-        <span>{{ $t("game_type.flex_rank_short") }}</span>
+    <div class="match-tabs" v-if="!isLoading">
+      <div
+        class="match-tab"
+        v-for="(item, idx) in matchTypeTabs"
+        :key="idx"
+        :class="{ active: matchType === item.id }"
+        @click="setMatchType(item.id)"
+      >
+        <span>{{ item.label }}</span>
       </div>
     </div>
     <div class="match__wrap">
-      <summoner-overview></summoner-overview>
+      <summoner-overview
+        :loading="isLoading"
+        :matches="matches"
+      ></summoner-overview>
       <game-list></game-list>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 import SummonerOverview from "@/components/summoner/SummonerOverview";
 import GameList from "@/components/summoner/GameList";
+
+import { FETCH_MATCHES } from "@/store/actions.type";
+import { FETCH_START, FETCH_END, SET_MATCH_TYPE } from "@/store/mutations.type";
 
 export default {
   components: {
@@ -30,11 +36,56 @@ export default {
     GameList,
   },
   computed: {
-    ...mapGetters("match", ["isLoading"]),
+    ...mapGetters("match", ["isLoading", "matches", "matchType"]),
     ...mapGetters("summoner", ["summoner"]),
   },
+  data() {
+    return {
+      matchTypeTabs: [
+        {
+          id: "all",
+          label: this.$t("game_type.total"),
+        },
+        {
+          id: "solo",
+          label: this.$t("game_type.match.solo"),
+        },
+        {
+          id: "flex",
+          label: this.$t("game_type.match.flex"),
+        },
+      ],
+    };
+  },
   watch: {
-    summoner() {},
+    summoner: {
+      immediate: true,
+      handler() {
+        if (!this.summoner) return false;
+        const namespace = "match/";
+
+        this.$store.commit(namespace + FETCH_START);
+
+        Promise.all([this[FETCH_MATCHES](this.summoner.name)])
+          .catch((e) => {
+            console.log(e);
+            this.$router.push({ name: "NoSummoner" });
+          })
+          .finally(() => {
+            this.$store.commit(namespace + FETCH_END);
+          });
+      },
+    },
+  },
+  methods: {
+    ...mapMutations(["match/" + SET_MATCH_TYPE]),
+    ...mapActions({
+      [FETCH_MATCHES]: "match/" + FETCH_MATCHES,
+    }),
+    setMatchType(val) {
+      const namespace = "match/";
+      this.$store.commit(namespace + SET_MATCH_TYPE, val);
+    },
   },
 };
 </script>

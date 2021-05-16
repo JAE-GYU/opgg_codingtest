@@ -8,6 +8,8 @@ import {
   SET_MOST_INFO,
 } from "@/store/mutations.type";
 
+import { mergeGroupChampion } from "@/utils";
+
 const state = {
   isLoading: true,
   summoner: null,
@@ -26,30 +28,6 @@ const getters = {
   },
 };
 
-// 중복되는 챔피언은 값 합침
-function mergeGroupObject(arr) {
-  let returnArr = {};
-  arr.forEach(item => {
-    if (returnArr[item.id]) {
-      let tmp = { ...returnArr[item.id] };
-      returnArr[item.id] = {
-        ...item,
-        assists: tmp.assists + item.assists,
-        cs: tmp.cs + item.cs,
-        deaths: tmp.deaths + item.deaths,
-        games: tmp.games + item.games,
-        kills: tmp.kills + item.kills,
-        losses: tmp.losses + item.losses,
-        wins: tmp.wins + item.wins,
-      }
-    } else {
-      returnArr[item.id] = item;
-    }
-  });
-
-  return returnArr;
-}
-
 const mutations = {
   [FETCH_START](state) {
     state.isLoading = true;
@@ -64,8 +42,8 @@ const mutations = {
   },
   [SET_MOST_INFO](state, mostInfo) {
     state.mostInfo = {
-      champions: Object.values(mergeGroupObject(mostInfo.champions)),
-      recentWinRate: Object.values(mergeGroupObject(mostInfo.recentWinRate)),
+      champions: mergeGroupChampion(mostInfo.champions),
+      recentWinRate: mergeGroupChampion(mostInfo.recentWinRate),
     };
   },
 };
