@@ -1,8 +1,5 @@
 <template>
   <div v-if="loading" class="skeleton" :style="getStyle"></div>
-  <div v-else-if="$slots.loading">
-    <slot name="loading"></slot>
-  </div>
   <component v-else :is="tagName" :class="className">
     <slot></slot>
   </component>
@@ -49,6 +46,7 @@ export default {
   position: relative;
   overflow: hidden;
   background-color: #d8d8d8;
+  border-radius: 2px;
 
   &::after {
     position: absolute;
@@ -59,10 +57,10 @@ export default {
     transform: translateX(-100%);
     background-image: linear-gradient(
       90deg,
-      rgba(#fff, 0) 0,
-      rgba(#fff, 0.2) 20%,
-      rgba(#fff, 0.5) 60%,
-      rgba(#fff, 0)
+      rgba(#f0f0f0, 0) 0,
+      rgba(#f0f0f0, 0.2) 20%,
+      rgba(#f0f0f0, 0.5) 60%,
+      rgba(#f0f0f0, 0)
     );
     animation: shimmer 2s infinite;
     content: "";
