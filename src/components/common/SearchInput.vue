@@ -88,11 +88,9 @@
                 v-for="(item, idx) in sortedFavoriteSearchHistory"
                 :key="idx"
               >
-                <span
-                  @click="routeSummonerName(item.summonerName)"
-                  class="summoner-name"
-                  >{{ item }}</span
-                >
+                <span @click="routeSummonerName(item)" class="summoner-name">{{
+                  item
+                }}</span>
                 <div class="actions">
                   <span @click="deleteFavorite(item)" class="remove"
                     ><i class="icon icon-close"></i
