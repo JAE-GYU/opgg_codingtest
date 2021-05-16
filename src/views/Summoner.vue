@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 import SummonerInfo from "@/components/summoner/SummonerInfo";
 import SummonerRank from "@/components/summoner/SummonerRank";
 import SummonerMatch from "@/components/summoner/SummonerMatch";
@@ -46,40 +48,39 @@ export default {
     SummonerMatch,
   },
   computed: {
-    isLoading() {
-      return this.$store.getters.isLoading;
-    },
-    summoner() {
-      return this.$store.getters.summoner;
-    },
-    mostInfo() {
-      return this.$store.getters.mostInfo;
-    },
+    ...mapGetters("summoner", ["isLoading", "summoner", "mostInfo"]),
   },
   watch: {
     "$route.params.summonerName": {
       immediate: true,
       async handler(summonerName) {
+        const namespace = "summoner/";
         if (!summonerName) {
           this.$router.push({ name: "NoSummoner" });
           return false;
         }
 
-        this.$store.commit(FETCH_START);
+        this.$store.commit(namespace + FETCH_START);
 
         Promise.all([
-          this.$store.dispatch(FETCH_SUMMONER, summonerName),
-          this.$store.dispatch(FETCH_MOST_INFO, summonerName),
+          this[FETCH_SUMMONER](summonerName),
+          this[FETCH_MOST_INFO](summonerName),
         ])
           .catch((e) => {
             console.log(e);
             this.$router.push({ name: "NoSummoner" });
           })
           .finally(() => {
-            this.$store.commit(FETCH_END);
+            this.$store.commit(namespace + FETCH_END);
           });
       },
     },
+  },
+  methods: {
+    ...mapActions({
+      [FETCH_SUMMONER]: "summoner/" + FETCH_SUMMONER,
+      [FETCH_MOST_INFO]: "summoner/" + FETCH_MOST_INFO,
+    }),
   },
 };
 </script>

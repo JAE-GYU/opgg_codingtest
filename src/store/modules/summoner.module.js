@@ -55,7 +55,9 @@ const mutations = {
     state.isLoading = true;
   },
   [FETCH_END](state) {
-    state.isLoading = false;
+    setTimeout(() => {
+      state.isLoading = false;
+    }, 150);
   },
   [SET_SUMMONER](state, summoner) {
     state.summoner = summoner;
@@ -80,6 +82,7 @@ const actions = {
 };
 
 export default {
+  namespaced: true,
   state,
   getters,
   actions,

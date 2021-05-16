@@ -1,10 +1,10 @@
 <template>
   <div class="summoner-match">
     <div class="match-tabs">
-      <div class="match-tab">
+      <div class="match-tab active">
         <span>{{ $t("game_type.total") }}</span>
       </div>
-      <div class="match-tab active">
+      <div class="match-tab">
         <span>{{ $t("game_type.solo_rank") }}</span>
       </div>
       <div class="match-tab">
@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 import SummonerOverview from "@/components/summoner/SummonerOverview";
 import GameList from "@/components/summoner/GameList";
 
@@ -26,6 +28,13 @@ export default {
   components: {
     SummonerOverview,
     GameList,
+  },
+  computed: {
+    ...mapGetters("match", ["isLoading"]),
+    ...mapGetters("summoner", ["summoner"]),
+  },
+  watch: {
+    summoner() {},
   },
 };
 </script>

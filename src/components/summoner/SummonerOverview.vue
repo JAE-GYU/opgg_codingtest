@@ -183,6 +183,7 @@ export default {
   border-width: 0 1px 1px 1px;
   border-style: solid;
   border-color: #cdd2d2;
+  box-sizing: border-box;
   margin-bottom: 8px;
 
   .overview-title {
