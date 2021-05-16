@@ -15,6 +15,7 @@ const mutations = {
 };
 const actions = {
   async [FETCH_SUMMONER]({ commit, state }, summonerName) {
+    state.loading = true;
     const { summoner } = await getSummoner(summonerName);
     commit(SET_SUMMONER, summoner);
 

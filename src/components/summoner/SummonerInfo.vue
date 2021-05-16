@@ -8,17 +8,13 @@
           <skeleton tagName="span" width="50px" height="22px" />
         </template>
         <template v-else>
-          <span class="tag">
-            <span class="season">S3</span>
-            <span class="rank"> Bronze</span>
-          </span>
-          <span class="tag">
-            <span class="season">S4</span>
-            <span class="rank"> Silver</span>
-          </span>
-          <span class="tag">
-            <span class="season">S5</span>
-            <span class="rank"> Gold</span>
+          <span
+            class="tag"
+            v-for="(item, idx) in sortedpreviousTier"
+            :key="idx"
+          >
+            <span class="season">{{ `S${item.season}` }}</span>
+            <span class="rank"> {{ item.tier }}</span>
           </span>
         </template>
       </div>
@@ -32,15 +28,15 @@
           >
             <img
               class="profile-img__border"
-              src="https://opgg-static.akamaized.net/images/borders2/challenger.png"
+              :src="summoner && summoner.profileBorderImageUrl"
               alt="profile-border"
             />
             <img
               class="profile-img__inner"
-              src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon1625.jpg"
+              :src="summoner && summoner.profileImageUrl"
               alt="profile-img"
             />
-            <span class="badge">32</span>
+            <span class="badge">{{ summoner && summoner.level }}</span>
           </skeleton>
         </div>
         <div class="profile-info">
@@ -51,7 +47,7 @@
               width="130px"
               height="24px"
             >
-              플레이어 아이디
+              {{ summoner && summoner.name }}
             </skeleton>
           </div>
           <div class="profile-info-rank mt-4">
@@ -61,7 +57,16 @@
               width="150px"
               height="13px"
             >
-              레더 랭킹 363,499위 (상위 40.7%)
+              <span
+                v-html="
+                  summoner &&
+                  $t('label.ladderRank', {
+                    rank: summoner.ladderRank.rank,
+                    percentage: summoner.ladderRank.rankPercentOfTop,
+                  })
+                "
+              >
+              </span>
             </skeleton>
           </div>
         </div>
@@ -78,12 +83,21 @@ export default {
   computed: {
     ...mapState({
       loading: (state) => state.summoner.loading,
+      summoner: (state) => state.summoner.summoner,
     }),
+    sortedpreviousTier() {
+      return this.summoner
+        ? this.summoner.previousTiers
+            .slice()
+            .sort((a, b) => a.season - b.season)
+        : [];
+    },
   },
   watch: {
     "$route.params.summonerName": {
       immediate: true,
       async handler(summonerName) {
+        if (!summonerName) this.$router.push({ name: "NoSummoner" });
         await this.$store.dispatch(FETCH_SUMMONER, summonerName);
       },
     },

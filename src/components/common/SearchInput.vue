@@ -57,10 +57,10 @@
                 v-for="(item, idx) in searchHistory"
                 :key="idx"
               >
-                <router-link
-                  :to="`/summoner/${item.summonerName}`"
+                <span
+                  @click="routeSummonerName(item.summonerName)"
                   class="summoner-name"
-                  >{{ item.summonerName }}</router-link
+                  >{{ item.summonerName }}</span
                 >
                 <div class="actions">
                   <span class="favorite" @click="setFavorite(item)">
@@ -88,9 +88,11 @@
                 v-for="(item, idx) in sortedFavoriteSearchHistory"
                 :key="idx"
               >
-                <router-link :to="`/summoner/${item}`" class="summoner-name">{{
-                  item
-                }}</router-link>
+                <span
+                  @click="routeSummonerName(item.summonerName)"
+                  class="summoner-name"
+                  >{{ item }}</span
+                >
                 <div class="actions">
                   <span @click="deleteFavorite(item)" class="remove"
                     ><i class="icon icon-close"></i
@@ -137,7 +139,7 @@ export default {
       );
     },
     sortedFavoriteSearchHistory() {
-      return this.favoriteSearchHistory.slice().sort((a, b) => a - b);
+      return this.favoriteSearchHistory.slice().sort();
     },
   },
   watch: {
@@ -439,6 +441,7 @@ export default {
         font-size: 12px;
         color: #666;
         text-decoration: none;
+        cursor: pointer;
       }
 
       .actions {

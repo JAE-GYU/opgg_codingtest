@@ -8,6 +8,7 @@ label:
   played: played
   no_champion: Not found Champion
   prefer_position: Preferred Position (Rank)
+  ladderRank: "Ladder Rank <b>{rank}</b> ( {percentage}% of top)"
 
 game_type:
   total: Total
@@ -26,3 +27,5 @@ search:
   placeholder: Name1,Name2…
   recent: Recent Search
   favorites: Favorites
+  no_recent: There is no summoner you seen recently.
+  no_favorite: "Add your <i class='icon icon-favorite-off mini'></i> favorite summoner for easy updates on the latest stats."  
