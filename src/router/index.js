@@ -20,11 +20,17 @@ const routes = [
     children: [
       {
         path: "",
+        redirect: {
+          name: "NoSummoner",
+        },
+      },
+      {
+        path: "/",
         name: "NoSummoner",
         component: NoSummoner,
       },
       {
-        path: ":userName",
+        path: ":summonerName",
         name: "Summoner",
         component: Summoner,
       },

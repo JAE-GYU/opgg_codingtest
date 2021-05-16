@@ -141,13 +141,15 @@ export default {
     },
   },
   watch: {
-    $route() {
-      this.initSearchHistory();
+    $route: {
+      immediate: true,
+      handler() {
+        this.initSearchHistory();
+      },
     },
   },
   created() {
     window.addEventListener("click", this.closeDropdown);
-    this.initSearchHistory();
   },
   beforeDestroy() {
     window.removeEventListener("click", this.closeDropdown);
@@ -331,7 +333,7 @@ export default {
       this.$router
         .push({
           name: "Summoner",
-          params: { userName: searchVal },
+          params: { summonerName: searchVal },
         })
         .catch(() => {});
     },

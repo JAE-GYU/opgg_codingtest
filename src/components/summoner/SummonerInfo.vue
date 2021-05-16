@@ -71,11 +71,22 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { FETCH_SUMMONER } from "@/store/actions.type";
+
 export default {
-  data() {
-    return {
-      loading: false,
-    };
+  computed: {
+    ...mapState({
+      loading: (state) => state.summoner.loading,
+    }),
+  },
+  watch: {
+    "$route.params.summonerName": {
+      immediate: true,
+      async handler(summonerName) {
+        await this.$store.dispatch(FETCH_SUMMONER, summonerName);
+      },
+    },
   },
 };
 </script>
