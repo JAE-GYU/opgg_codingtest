@@ -1,45 +1,70 @@
 <template>
-  <skeleton
-    tagName="div"
-    className="summoner-rank"
-    height="124px"
-    :class="{ unranked: !league.hasResults }"
-    :loading="false"
-  >
-    <div class="d-flex" v-if="league.hasResults">
+  <skeleton tagName="div" :height="small ? '98px' : '124px'" :loading="loading">
+    <div
+      class="summoner-rank d-flex"
+      :class="{ small: small }"
+      v-if="league && league.hasResults"
+    >
       <img
         class="summoner-rank-img"
-        src="https://opgg-static.akamaized.net/images/medals/platinum_1.png"
-        alt="rank-img"
+        :src="league.tierRank.imageUrl"
+        :alt="league.tierRank.tierDivision"
       />
       <div class="summoner-rank-info">
-        <span class="rank-type">솔로 랭크</span>
-        <span class="most-position mt-4">탑 (총 27게임)</span>
-        <span class="tier mt-4">Platinum 1</span>
-        <span class="lp mt-6"><b>80 LP</b> / 28승 30패</span>
+        <span class="rank-type">{{ title }}</span>
+        <!-- 포지션 정보가 없음,,  -->
+        <!-- <span class="most-position mt-4">탑 (총 27게임)</span> -->
+        <span class="tier mt-4">{{ getDivisionTierNum }}</span>
+        <span class="lp mt-6"
+          ><b>{{ league.tierRank.lp }} LP</b> /
+          {{
+            $t("label.win_lose", { win: league.wins, lose: league.losses })
+          }}</span
+        >
         <span class="ratio mt-3">승률 51%</span>
       </div>
     </div>
-    <template class="d-flex" v-else>
+    <div class="summoner-rank d-flex small" v-else>
       <img
         class="summoner-rank-img"
         src="@/assets/images/unranked.png"
         alt="unrank-img"
       />
       <div class="summoner-rank-info">
-        <span class="rank-type">자유 5:5 랭크</span>
+        <span class="rank-type">{{ title }}</span>
         <span class="unranked mt-2">Unranked</span>
       </div>
-    </template>
+    </div>
   </skeleton>
 </template>
 
 <script>
+import { getDivisionTierNum } from "@/utils";
+
 export default {
   props: {
+    title: {
+      type: String,
+      required: false,
+      default: "",
+    },
+    small: {
+      type: Boolean,
+      default: false,
+    },
     league: {
-      type: Object,
-      required: true,
+      default: {
+        hasResults: false,
+      },
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    getDivisionTierNum() {
+      return getDivisionTierNum(this.league.tierRank);
     },
   },
 };
@@ -65,6 +90,7 @@ export default {
     display: flex;
     flex: 1;
     flex-direction: column;
+    justify-content: center;
     margin-left: 8px;
 
     .unranked {
@@ -93,7 +119,7 @@ export default {
 
     .lp {
       font-family: Helvetica;
-      font-family: 12px;
+      font-size: 12px;
       color: #879292;
 
       b {
@@ -108,11 +134,12 @@ export default {
     }
   }
 
-  &.unranked {
+  &.small {
     width: 100%;
     height: 98px;
     padding-top: 17px;
     padding-left: 28px;
+
     .summoner-rank-img {
       width: 64px;
       height: 64px;
@@ -122,6 +149,14 @@ export default {
       display: flex;
       justify-content: center;
       margin-left: 28px;
+    }
+
+    .tier {
+      font-size: 13px;
+    }
+
+    .lp {
+      margin-top: 2px;
     }
   }
 }

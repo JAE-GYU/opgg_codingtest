@@ -21,6 +21,23 @@ export function getUnique(arr, key) {
   }, []);
 }
 
+export function getDivisionTierNum({ tierDivision, shortString }) {
+  // 마스터, 그랜드마스터, 챌린저는 티어 숫자가 없음
+  let tierNum = [
+    "Iron",
+    "Bronze",
+    "Silver",
+    "Gold",
+    "Platinum",
+    "Diamond",
+  ].includes(tierDivision)
+    ? shortString.match(/\d+/g)
+    : "";
+
+  return `${tierDivision}${tierNum && " " + tierNum[0]}`;
+
+}
+
 export default {
   getCookie,
 };

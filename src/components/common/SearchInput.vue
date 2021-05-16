@@ -111,7 +111,7 @@
 import _ from "lodash";
 
 import { getSummoner } from "@/api";
-import { getUnique } from "@/utils";
+import { getUnique, getDivisionTierNum } from "@/utils";
 
 import Tabs from "@/components/common/Tabs";
 import TabPane from "@/components/common/TabPane";
@@ -173,9 +173,7 @@ export default {
       const hasTier = summoner.leagues.find((x) => x.hasResults);
 
       if (hasTier) {
-        let division = hasTier.tierRank.tierDivision;
-        let tierNum = hasTier.tierRank.shortString.match(/\d+/g);
-        return `${division}${tierNum && " " + tierNum[0]} - ${
+        return `${getDivisionTierNum(hasTier.tierRank)} - ${
           hasTier.tierRank.lp
         }LP`;
       }
@@ -209,6 +207,8 @@ export default {
     },
     handleInput: _.debounce(async function (e) {
       const val = e.target.value.replace(/ /g, "");
+      // 한글 자음 모음 단일로 입력했을 경우 처리
+      if (val && !this.searchVal) this.searchVal = val;
       if (
         ((e.inputType !== "deleteContentBackward" ||
           e.inputType !== "deleteContentForward") &&
@@ -247,6 +247,7 @@ export default {
         "summonerName"
       );
 
+      // searchHistory에 즐겨찾기 항목이 있지만 favoriteSearchHistory가 로컬스토리지에 없을 경우도 고려해서 추가
       this.favoriteSearchHistory = [
         ...new Set([
           ...this.getLocalStorageObject("favoriteSearchHistory"),

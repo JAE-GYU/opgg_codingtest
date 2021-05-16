@@ -41,7 +41,7 @@ export default {
 
 <style lang="scss" scoped>
 .skeleton {
-  display: inline-block;
+  display: block;
   height: 1em;
   position: relative;
   overflow: hidden;

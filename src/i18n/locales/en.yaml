@@ -8,7 +8,7 @@ label:
   played: played
   no_champion: Not found Champion
   prefer_position: Preferred Position (Rank)
-  ladderRank: "Ladder Rank <b>{rank}</b> ( {percentage}% of top)"
+  ladder_rank: "Ladder Rank <b>{rank}</b> ( {percentage}% of top)"
 
 game_type:
   total: Total

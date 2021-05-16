@@ -8,7 +8,7 @@ label:
   played: 게임
   no_champion: 챔피언 정보가 없습니다.
   prefer_position: 선호 포지션 (랭크)
-  ladderRank: "레더 랭킹 <b>{rank}</b>위 (상위 {percentage}%)"
+  ladder_rank: "레더 랭킹 <b>{rank}</b>위 (상위 {percentage}%)"
 
 game_type:
   total: 전체

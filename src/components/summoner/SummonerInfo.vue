@@ -60,7 +60,7 @@
               <span
                 v-html="
                   summoner &&
-                  $t('label.ladderRank', {
+                  $t('label.ladder_rank', {
                     rank: summoner.ladderRank.rank,
                     percentage: summoner.ladderRank.rankPercentOfTop,
                   })
@@ -77,6 +77,7 @@
 
 <script>
 import { mapState } from "vuex";
+
 export default {
   computed: {
     ...mapState({
