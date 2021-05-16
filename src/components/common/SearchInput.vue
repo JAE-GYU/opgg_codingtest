@@ -470,6 +470,7 @@ export default {
     text-align: center;
 
     &__text {
+      width: 100%;
       font-size: 12px;
       color: #666;
       align-items: center;
