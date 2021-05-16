@@ -7,7 +7,10 @@
   >
     <tabs v-if="mostInfo">
       <tab-pane :name="$t('label.wr_champion')">
-        <div class="most-champion__wrap">
+        <div class="no-results" v-if="mostInfo.champions.length <= 0">
+          {{ $t("label.no_results_recorded") }}
+        </div>
+        <div class="most-champion__wrap" v-else>
           <div
             class="most-champion"
             v-for="(item, idx) in mostInfo.champions"
@@ -53,7 +56,10 @@
         </div>
       </tab-pane>
       <tab-pane :name="$t('label.wr_week')">
-        <div class="most-champion-week__wrap">
+        <div class="no-results" v-if="mostInfo.recentWinRate.length <= 0">
+          {{ $t("label.no_results_recorded") }}
+        </div>
+        <div class="most-champion-week__wrap" v-else>
           <div
             class="most-champion-week"
             v-for="(item, idx) in mostInfo.recentWinRate"
@@ -128,6 +134,17 @@ export default {
   border: solid 1px #cdd2d2;
   box-sizing: border-box;
   background: #ededed;
+
+  .no-results {
+    padding-top: 126px;
+    background-image: url("~@/assets/images/icons/icon_info_large.png");
+    background-repeat: no-repeat;
+    background-position: 50% 50px;
+    padding-bottom: 60px;
+    text-align: center;
+    font-size: 16px;
+    color: #555e5e;
+  }
 
   .info__item {
     display: flex;
