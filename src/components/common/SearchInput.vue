@@ -384,6 +384,7 @@ export default {
     top: 36px;
     left: 0;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 50%);
+    z-index: 10;
   }
 
   .autocomplete {

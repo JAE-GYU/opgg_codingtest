@@ -193,7 +193,7 @@ export default {
         color: #242929;
       }
 
-      &-rank {
+      &-rank span {
         font-size: 11px;
         color: #657070;
       }
