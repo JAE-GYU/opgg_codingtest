@@ -21,7 +21,10 @@
             $t("label.win_lose", { win: league.wins, lose: league.losses })
           }}</span
         >
-        <span class="ratio mt-3">승률 51%</span>
+        <span class="ratio mt-3"
+          >{{ $t("label.wr") }}
+          {{ getWinRatio(league.wins, league.losses) }}%</span
+        >
       </div>
     </div>
     <div class="summoner-rank d-flex small" v-else>
@@ -39,7 +42,7 @@
 </template>
 
 <script>
-import { getDivisionTierNum } from "@/utils";
+import { getDivisionTierNum, getWinRatio } from "@/utils";
 
 export default {
   props: {
@@ -66,6 +69,9 @@ export default {
     getDivisionTierNum() {
       return getDivisionTierNum(this.league.tierRank);
     },
+  },
+  methods: {
+    getWinRatio,
   },
 };
 </script>

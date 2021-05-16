@@ -1,4 +1,4 @@
-import { getSummoner, getMostInfo } from '@/api'
+import { getSummoner, getMostInfo } from "@/api";
 
 import { FETCH_SUMMONER, FETCH_MOST_INFO } from "@/store/actions.type";
 import {
@@ -21,7 +21,34 @@ const getters = {
   summoner(state) {
     return state.summoner;
   },
+  mostInfo(state) {
+    return state.mostInfo;
+  },
 };
+
+// 중복되는 챔피언은 값 합침
+function mergeGroupObject(arr) {
+  let returnArr = {};
+  arr.forEach(item => {
+    if (returnArr[item.id]) {
+      let tmp = { ...returnArr[item.id] };
+      returnArr[item.id] = {
+        ...item,
+        assists: tmp.assists + item.assists,
+        cs: tmp.cs + item.cs,
+        deaths: tmp.deaths + item.deaths,
+        games: tmp.games + item.games,
+        kills: tmp.kills + item.kills,
+        losses: tmp.losses + item.losses,
+        wins: tmp.wins + item.wins,
+      }
+    } else {
+      returnArr[item.id] = item;
+    }
+  });
+
+  return returnArr;
+}
 
 const mutations = {
   [FETCH_START](state) {
@@ -30,11 +57,14 @@ const mutations = {
   [FETCH_END](state) {
     state.isLoading = false;
   },
-  [SET_SUMMONER](state, payload) {
-    state.summoner = payload;
+  [SET_SUMMONER](state, summoner) {
+    state.summoner = summoner;
   },
-  [SET_MOST_INFO](state, payload) {
-    state.mostInfo = payload;
+  [SET_MOST_INFO](state, mostInfo) {
+    state.mostInfo = {
+      champions: Object.values(mergeGroupObject(mostInfo.champions)),
+      recentWinRate: Object.values(mergeGroupObject(mostInfo.recentWinRate)),
+    };
   },
 };
 

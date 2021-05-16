@@ -35,9 +35,32 @@ export function getDivisionTierNum({ tierDivision, shortString }) {
     : "";
 
   return `${tierDivision}${tierNum && " " + tierNum[0]}`;
+}
 
+export function getWinRatio(win, lose) {
+  return ((win / (win + lose)) * 100).toFixed(0);
+}
+
+export function getWinRatioColor(win, lose) {
+  let num = getWinRatio(win, lose);
+  return num >= 60 ? "color-red" : "";
+}
+
+export function getKdaColor(num) {
+  let color = "";
+  if (5 <= num) color = "color-yellow";
+  else if (4 <= num) color = "color-blue";
+  else if (3 <= num) color = "color-green";
+
+  return color;
+}
+
+export function getKdaScoreColor(num) {
+  return num >= 6 ? "color-yellow" : "";
 }
 
 export default {
   getCookie,
+  getUnique,
+  getDivisionTierNum,
 };

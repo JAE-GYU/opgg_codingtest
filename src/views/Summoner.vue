@@ -16,7 +16,10 @@
             :league="summoner && summoner.leagues[1]"
             :loading="isLoading"
           ></summoner-rank>
-          <summoner-most></summoner-most>
+          <summoner-most
+            :most-info="mostInfo"
+            :loading="isLoading"
+          ></summoner-most>
         </section>
         <section class="main">
           <summoner-match></summoner-match>
@@ -49,6 +52,9 @@ export default {
     summoner() {
       return this.$store.getters.summoner;
     },
+    mostInfo() {
+      return this.$store.getters.mostInfo;
+    },
   },
   watch: {
     "$route.params.summonerName": {
@@ -65,7 +71,8 @@ export default {
           this.$store.dispatch(FETCH_SUMMONER, summonerName),
           this.$store.dispatch(FETCH_MOST_INFO, summonerName),
         ])
-          .catch(() => {
+          .catch((e) => {
+            console.log(e);
             this.$router.push({ name: "NoSummoner" });
           })
           .finally(() => {

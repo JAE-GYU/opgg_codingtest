@@ -1,68 +1,52 @@
 <template>
-  <div class="summoner-most">
-    <tabs>
+  <skeleton
+    tagName="div"
+    className="summoner-most"
+    height="256px"
+    :loading="loading"
+  >
+    <tabs v-if="mostInfo">
       <tab-pane :name="$t('label.wr_champion')">
         <div class="most-champion__wrap">
-          <div class="most-champion">
-            <img
-              class="champion-img"
-              src="https://opgg-static.akamaized.net/images/lol/champion/Anivia.png?image=w_30&v=1"
-              alt="most-champion-name"
-            />
+          <div
+            class="most-champion"
+            v-for="(item, idx) in mostInfo.champions"
+            :key="idx"
+          >
+            <img class="champion-img" :src="item.imageUrl" :alt="item.name" />
             <div class="most-champion-info">
               <div class="info__item">
-                <span class="info__text accent">애니비아</span>
-                <span class="info__text">CS 67.8 (2.4)</span>
+                <span class="info__text accent">{{ item.name }}</span>
+                <!-- csPerMin이 없음 -->
+                <span class="info__text">CS {{ item.cs }}</span>
               </div>
               <div class="info__item">
-                <span class="info__text accent">2.88:1 평점</span>
-                <span class="info__text">6.5 / 4.5 / 6.4</span>
+                <span
+                  class="info__text accent"
+                  :class="
+                    getKdaColor(
+                      ((item.kills + item.assists) / item.deaths).toFixed(2)
+                    )
+                  "
+                  >{{
+                    ((item.kills + item.assists) / item.deaths).toFixed(2)
+                  }}:1 {{ $t("label.kda") }}</span
+                >
+                <span class="info__text"
+                  >{{ (item.kills / item.games).toFixed(1) }} /
+                  {{ (item.deaths / item.games).toFixed(1) }} /
+                  {{ (item.assists / item.games).toFixed(1) }}</span
+                >
               </div>
               <div class="info__item">
-                <span class="info__text accent">56%</span>
-                <span class="info__text">58게임</span>
-              </div>
-            </div>
-          </div>
-          <div class="most-champion">
-            <img
-              class="champion-img"
-              src="https://opgg-static.akamaized.net/images/lol/champion/Volibear.png?image=q_auto&v=1591083841"
-              alt="most-champion-name"
-            />
-            <div class="most-champion-info">
-              <div class="info__item">
-                <span class="info__text accent">볼리베어</span>
-                <span class="info__text">CS 67.8 (2.4)</span>
-              </div>
-              <div class="info__item">
-                <span class="info__text accent color-blue">4.88:1 평점</span>
-                <span class="info__text">6.5 / 4.5 / 6.4</span>
-              </div>
-              <div class="info__item">
-                <span class="info__text accent">36%</span>
-                <span class="info__text">58게임</span>
-              </div>
-            </div>
-          </div>
-          <div class="most-champion">
-            <img
-              class="champion-img"
-              src="https://opgg-static.akamaized.net/images/lol/champion/Aatrox.png?image=q_auto&v=1591083841"
-              alt="most-champion-name"
-            />
-            <div class="most-champion-info">
-              <div class="info__item">
-                <span class="info__text accent">아트록스</span>
-                <span class="info__text">CS 67.8 (2.4)</span>
-              </div>
-              <div class="info__item">
-                <span class="info__text accent color-yellow">5.88:1 평점</span>
-                <span class="info__text">6.5 / 4.5 / 6.4</span>
-              </div>
-              <div class="info__item">
-                <span class="info__text accent color-red">67%</span>
-                <span class="info__text">58게임</span>
+                <span
+                  class="info__text accent"
+                  :class="getWinRatioColor(item.wins, item.losses)"
+                  >{{ getWinRatio(item.wins, item.losses) }}%</span
+                >
+                <span class="info__text"
+                  >{{ item.games }}{{ $t("label.played") }}</span
+                >
               </div>
             </div>
           </div>
@@ -70,59 +54,30 @@
       </tab-pane>
       <tab-pane :name="$t('label.wr_week')">
         <div class="most-champion-week__wrap">
-          <div class="most-champion-week">
-            <img
-              class="champion-img"
-              src="https://opgg-static.akamaized.net/images/lol/champion/Anivia.png?image=w_30&v=1"
-              alt="most-champion-name"
-            />
+          <div
+            class="most-champion-week"
+            v-for="(item, idx) in mostInfo.recentWinRate"
+            :key="idx"
+          >
+            <img class="champion-img" :src="item.imageUrl" :alt="item.name" />
             <div class="most-champion-week-info">
-              <span class="champion-name">애니비아</span>
-              <span class="win-ratio">71%</span>
+              <span class="champion-name">{{ item.name }}</span>
+              <span
+                class="win-ratio"
+                :class="getWinRatioColor(item.wins, item.losses)"
+                >{{ getWinRatio(item.wins, item.losses) }}%</span
+              >
               <div class="win-ratio-chart">
-                <div class="win" style="width: 40%">
-                  <span>4승</span>
+                <div
+                  class="win"
+                  :style="{
+                    width: (getWinRatio(item.wins, item.losses) || 0) + '%',
+                  }"
+                >
+                  <span>{{ item.wins }}{{ $t("label.win") }}</span>
                 </div>
-                <div class="lose" style="width: 60%">
-                  <span>6패</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="most-champion-week">
-            <img
-              class="champion-img"
-              src="https://opgg-static.akamaized.net/images/lol/champion/Anivia.png?image=w_30&v=1"
-              alt="most-champion-name"
-            />
-            <div class="most-champion-week-info">
-              <span class="champion-name">애니비아</span>
-              <span class="win-ratio">71%</span>
-              <div class="win-ratio-chart">
-                <div class="win" style="width: 40%">
-                  <span>4승</span>
-                </div>
-                <div class="lose" style="width: 60%">
-                  <span>6패</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="most-champion-week">
-            <img
-              class="champion-img"
-              src="https://opgg-static.akamaized.net/images/lol/champion/Anivia.png?image=w_30&v=1"
-              alt="most-champion-name"
-            />
-            <div class="most-champion-week-info">
-              <span class="champion-name">애니비아</span>
-              <span class="win-ratio">71%</span>
-              <div class="win-ratio-chart">
-                <div class="win" style="width: 40%">
-                  <span>4승</span>
-                </div>
-                <div class="lose" style="width: 60%">
-                  <span>6패</span>
+                <div class="lose">
+                  <span>{{ item.losses }}{{ $t("label.lose") }}</span>
                 </div>
               </div>
             </div>
@@ -130,14 +85,25 @@
         </div>
       </tab-pane>
     </tabs>
-  </div>
+  </skeleton>
 </template>
 
 <script>
 import Tabs from "@/components/common/Tabs";
 import TabPane from "@/components/common/TabPane";
+
+import { getWinRatio, getKdaColor, getWinRatioColor } from "@/utils";
+
 export default {
   components: { Tabs, TabPane },
+  props: {
+    mostInfo: {
+      type: Object,
+    },
+    loading: {
+      type: Boolean,
+    },
+  },
   data() {
     return {
       activeName: "champion",
@@ -147,6 +113,9 @@ export default {
     setActiveName(val) {
       this.activeName = val;
     },
+    getWinRatio,
+    getKdaColor,
+    getWinRatioColor,
   },
 };
 </script>
@@ -164,15 +133,20 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    overflow: hidden;
+    white-space: nowrap;
 
     &:last-of-type {
       margin-right: 0;
+      text-align: center;
     }
 
     .info__text {
       font-family: Helvetica;
       font-size: 11px;
       color: #879292;
+      overflow: hidden;
+      text-overflow: ellipsis;
       &.accent {
         font-size: 13px;
         font-weight: bold;
@@ -234,6 +208,9 @@ export default {
         font-family: Helvetica;
         width: 60px;
         color: #5e5e5e;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .win-ratio {
@@ -251,6 +228,7 @@ export default {
 
         .win,
         .lose {
+          display: flex;
           height: 100%;
           line-height: 24px;
           float: left;
@@ -268,6 +246,9 @@ export default {
         }
 
         .lose {
+          display: flex;
+          flex: 1;
+          justify-content: flex-end;
           padding-right: 4px;
           background: #ee5a52;
           text-align: right;

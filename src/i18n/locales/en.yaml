@@ -2,6 +2,8 @@ label:
   wr: Win Ratio
   wr_champion: Champion Win Ratio
   wr_week: Rank win rate per week
+  win: W
+  lose: L
   win_lose: "{win}W {lose}L"
   total_win_lose: "{total}G {win}W {lose}L"
   kda: KDA
