@@ -213,7 +213,7 @@ export default {
           val === this.lastSearchVal) ||
         !val
       ) {
-        this.currentHoverItem = -1;
+        if (!val) this.currentHoverItem = -1;
         return false;
       }
       this.lastSearchVal = val;
