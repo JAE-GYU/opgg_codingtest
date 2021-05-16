@@ -18,5 +18,9 @@ export default {
 <style lang="scss" scoped>
 .layout-container {
   width: 100%;
+  height: 100%;
+  min-width: 1000px;
+  padding-bottom: 120px;
+  overflow-x: hidden;
 }
 </style>
