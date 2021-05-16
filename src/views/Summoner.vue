@@ -1,6 +1,6 @@
 <template>
   <div class="summoner__wrap">
-    <summoner-info></summoner-info>
+    <summoner-info :summoner="summoner" :loading="isLoading"></summoner-info>
 
     <div class="container">
       <div class="summoner-contents">
@@ -8,13 +8,13 @@
           <summoner-rank
             :title="$t('game_type.solo_rank')"
             :league="summoner && summoner.leagues[0]"
-            :loading="loading"
+            :loading="isLoading"
           ></summoner-rank>
           <summoner-rank
             :title="$t('game_type.flex_rank')"
             :small="true"
             :league="summoner && summoner.leagues[1]"
-            :loading="loading"
+            :loading="isLoading"
           ></summoner-rank>
           <summoner-most></summoner-most>
         </section>
@@ -27,14 +27,13 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
 import SummonerInfo from "@/components/summoner/SummonerInfo";
 import SummonerRank from "@/components/summoner/SummonerRank";
 import SummonerMatch from "@/components/summoner/SummonerMatch";
 import SummonerMost from "@/components/summoner/SummonerMost";
 
-import { FETCH_SUMMONER } from "@/store/actions.type";
+import { FETCH_START, FETCH_END } from "@/store/mutations.type";
+import { FETCH_SUMMONER, FETCH_MOST_INFO } from "@/store/actions.type";
 
 export default {
   components: {
@@ -44,10 +43,12 @@ export default {
     SummonerMatch,
   },
   computed: {
-    ...mapState({
-      loading: (state) => state.summoner.loading,
-      summoner: (state) => state.summoner.summoner,
-    }),
+    isLoading() {
+      return this.$store.getters.isLoading;
+    },
+    summoner() {
+      return this.$store.getters.summoner;
+    },
   },
   watch: {
     "$route.params.summonerName": {
@@ -58,11 +59,18 @@ export default {
           return false;
         }
 
-        Promise.all([this.$store.dispatch(FETCH_SUMMONER, summonerName)]).catch(
-          () => {
+        this.$store.commit(FETCH_START);
+
+        Promise.all([
+          this.$store.dispatch(FETCH_SUMMONER, summonerName),
+          this.$store.dispatch(FETCH_MOST_INFO, summonerName),
+        ])
+          .catch(() => {
             this.$router.push({ name: "NoSummoner" });
-          }
-        );
+          })
+          .finally(() => {
+            this.$store.commit(FETCH_END);
+          });
       },
     },
   },

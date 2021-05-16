@@ -76,14 +76,16 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
 export default {
+  props: {
+    summoner: {
+      type: Object,
+    },
+    loading: {
+      type: Boolean,
+    },
+  },
   computed: {
-    ...mapState({
-      loading: (state) => state.summoner.loading,
-      summoner: (state) => state.summoner.summoner,
-    }),
     sortedpreviousTier() {
       return this.summoner
         ? this.summoner.previousTiers

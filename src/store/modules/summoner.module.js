@@ -1,25 +1,51 @@
-import { getSummoner } from '@/api'
+import { getSummoner, getMostInfo } from '@/api'
 
-import { FETCH_SUMMONER } from "@/store/actions.type";
-import { SET_SUMMONER } from "@/store/mutations.type";
+import { FETCH_SUMMONER, FETCH_MOST_INFO } from "@/store/actions.type";
+import {
+  FETCH_START,
+  FETCH_END,
+  SET_SUMMONER,
+  SET_MOST_INFO,
+} from "@/store/mutations.type";
 
 const state = {
-  loading: true,
+  isLoading: true,
   summoner: null,
+  mostInfo: null,
 };
-const getters = {};
+
+const getters = {
+  isLoading(state) {
+    return state.isLoading;
+  },
+  summoner(state) {
+    return state.summoner;
+  },
+};
+
 const mutations = {
+  [FETCH_START](state) {
+    state.isLoading = true;
+  },
+  [FETCH_END](state) {
+    state.isLoading = false;
+  },
   [SET_SUMMONER](state, payload) {
     state.summoner = payload;
   },
+  [SET_MOST_INFO](state, payload) {
+    state.mostInfo = payload;
+  },
 };
+
 const actions = {
-  async [FETCH_SUMMONER]({ commit, state }, summonerName) {
-    state.loading = true;
+  async [FETCH_SUMMONER]({ commit }, summonerName) {
     const { summoner } = await getSummoner(summonerName);
     commit(SET_SUMMONER, summoner);
-
-    state.loading = false;
+  },
+  async [FETCH_MOST_INFO]({ commit }, summonerName) {
+    const mostInfo = await getMostInfo(summonerName);
+    commit(SET_MOST_INFO, mostInfo);
   },
 };
 

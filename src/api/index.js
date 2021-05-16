@@ -18,3 +18,7 @@ function get(url, config) {
 export function getSummoner(summonerName) {
   return get(`${baseURL}/summoner/${summonerName}`);
 }
+
+export function getMostInfo(summonerName) {
+  return get(`${baseURL}/summoner/${summonerName}/mostInfo`);
+}
