@@ -1,6 +1,6 @@
 # OP.GG 프론트엔드 과제 전형
 
-![screencapture](./screencapture.png)
+![screencapture](./screen.png)
 
 
 ## Project setup
