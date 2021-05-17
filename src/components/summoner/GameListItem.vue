@@ -67,6 +67,22 @@
             }}:1</b
           >
           <span class="stat-label"> {{ $t("label.kda") }}</span>
+          <div class="badge__wrap">
+            <div
+              class="multi-kill"
+              v-if="game.stats.general.largestMultiKillString"
+            >
+              <span>{{
+                this.$t(
+                  "multi_kill." +
+                    game.stats.general.largestMultiKillString.replace(/ /g, "")
+                )
+              }}</span>
+            </div>
+            <div class="score-badge" v-if="game.stats.general.opScoreBadge">
+              <span>{{ game.stats.general.opScoreBadge }}</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="game-stat">
@@ -447,6 +463,40 @@ export default {
         font-size: 11px;
         color: #000;
       }
+    }
+  }
+
+  .badge__wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 7px;
+    .multi-kill,
+    .score-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 18px;
+      padding: 0px 5px;
+      border-width: 1px;
+      border-style: solid;
+      border-radius: 20px;
+      box-sizing: border-box;
+      span {
+        font-size: 10px;
+        font-weight: normal;
+        color: #fff;
+      }
+    }
+
+    .multi-kill {
+      background: #ec4f48;
+      border-color: #bf3b36;
+    }
+
+    .score-badge {
+      margin-left: 4px;
+      background: #8c51c5;
+      border-color: #7f3590;
     }
   }
 

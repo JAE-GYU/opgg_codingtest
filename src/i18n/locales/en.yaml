@@ -41,6 +41,12 @@ position:
   sup: Support
   jng: Jungle
 
+multi_kill:
+  DoubleKill: Double Kill
+  TripleKill: Triple Kill
+  QuadraKill: Quadra Kill
+  PentaKill: Penta Kill
+
 search:
   placeholder: Name1,Name2…
   recent: Recent Search

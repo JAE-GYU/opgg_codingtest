@@ -1,7 +1,6 @@
 <template>
   <div class="search-input" @click.prevent.stop>
     <input
-      id="search"
       class="search-input__inner"
       type="text"
       name="search"

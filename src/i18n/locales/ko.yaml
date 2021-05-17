@@ -40,6 +40,12 @@ position:
   sup: 서포터
   jng: 정글 
 
+multi_kill:
+  DoubleKill: 더블킬
+  TripleKill: 트리플킬
+  QuadraKill: 쿼드라킬
+  PentaKill: 펜타킬
+
 search:
   placeholder: 소환사명,챔피언…
   recent: 최근검색
