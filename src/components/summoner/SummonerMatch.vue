@@ -16,7 +16,7 @@
         :loading="isLoading"
         :matches="matches"
       ></summoner-overview>
-      <game-list :loading="isLoading" :matches="matches"></game-list>
+      <game-list :loading="isLoading" :matches="filterdMatches"></game-list>
     </div>
   </div>
 </template>
@@ -36,7 +36,12 @@ export default {
     GameList,
   },
   computed: {
-    ...mapGetters("match", ["isLoading", "matches", "matchType"]),
+    ...mapGetters("match", [
+      "isLoading",
+      "matches",
+      "filterdMatches",
+      "matchType",
+    ]),
     ...mapGetters("summoner", ["summoner"]),
   },
   data() {

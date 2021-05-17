@@ -1,4 +1,5 @@
 import { getItems, getMatches } from "@/api";
+import i18n from "@/i18n";
 
 import { FETCH_MATCHES, FETCH_ITEMS } from "@/store/actions.type";
 import {
@@ -8,6 +9,7 @@ import {
   SET_MATCH_TYPE,
   SET_MATCHES,
 } from "@/store/mutations.type";
+
 
 const state = {
   isLoading: true,
@@ -25,6 +27,16 @@ const getters = {
   },
   matches(state) {
     return state.matches;
+  },
+  filterdMatches(state) {
+    if (state.matchType === "all") {
+      return state.matches;
+    }
+
+    return {
+      ...state.matches,
+      games: state.matches.games.filter(x => x.gameType === i18n.t(`game_type.match.${state.matchType}`))
+    };
   },
   matchType(state) {
     return state.matchType;
