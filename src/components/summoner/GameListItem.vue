@@ -79,7 +79,16 @@
                 )
               }}</span>
             </div>
-            <div class="score-badge" v-if="game.stats.general.opScoreBadge">
+            <div
+              class="score-badge ace"
+              v-if="game.stats.general.opScoreBadge === 'ACE'"
+            >
+              <span>{{ game.stats.general.opScoreBadge }}</span>
+            </div>
+            <div
+              class="score-badge mvp"
+              v-else-if="game.stats.general.opScoreBadge === 'MVP'"
+            >
               <span>{{ game.stats.general.opScoreBadge }}</span>
             </div>
           </div>
@@ -493,10 +502,16 @@ export default {
       border-color: #bf3b36;
     }
 
-    .score-badge {
+    .score-badge.ace {
       margin-left: 4px;
       background: #8c51c5;
       border-color: #7f3590;
+    }
+
+    .score-badge.mvp {
+      margin-left: 4px;
+      background: #e19205;
+      border-color: #b88a2a;
     }
   }
 
