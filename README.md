@@ -1,4 +1,7 @@
-# OP.GG 코딩 테스트
+# OP.GG 프론트엔드 과제 전형
+
+![screencapture](./screencapture.png)
+
 
 ## Project setup
 ```
@@ -19,6 +22,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
