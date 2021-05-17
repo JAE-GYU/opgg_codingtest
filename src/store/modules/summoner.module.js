@@ -33,9 +33,7 @@ const mutations = {
     state.isLoading = true;
   },
   [FETCH_END](state) {
-    setTimeout(() => {
-      state.isLoading = false;
-    }, 150);
+    state.isLoading = false;
   },
   [SET_SUMMONER](state, summoner) {
     state.summoner = summoner;

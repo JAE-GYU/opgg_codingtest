@@ -36,9 +36,7 @@ const mutations = {
     state.isLoading = true;
   },
   [FETCH_END](state) {
-    setTimeout(() => {
-      state.isLoading = false;
-    }, 150);
+    state.isLoading = false;
   },
   [SET_ITEMS](state, matchType) {
     state.items = matchType;
