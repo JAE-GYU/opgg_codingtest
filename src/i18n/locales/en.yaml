@@ -1,6 +1,7 @@
 label:  
   ward: Control Ward
   pkill: P/Kill
+  pkill_percentage: Kill Participation
   level: level
   wr: Win Ratio
   wr_champion: Champion Win Ratio
@@ -17,6 +18,8 @@ label:
   no_champion: Not found Champion
   prefer_position: Preferred Position (Rank)
   ladder_rank: "Ladder Rank <b>{rank}</b> ( {percentage}% of top)"
+  cs_avg: avg. CS
+  kda_avg: "(K {kills} + A {assists}) / D {deaths}"
 
 game_type:
   total: Total

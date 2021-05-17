@@ -38,7 +38,10 @@
               }}</span
               >:1</span
             >
-            <span class="percentage color-red">
+            <span
+              class="percentage color-red"
+              v-tooltip="$t('label.pkill_percentage')"
+            >
               ({{ getContributionForKillRateAvg }}%)</span
             >
           </span>

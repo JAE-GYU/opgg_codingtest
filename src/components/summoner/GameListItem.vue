@@ -6,7 +6,9 @@
           <span class="stat-label"
             ><b>{{ game.gameType }}</b></span
           >
-          <span class="stat-label mt-4">{{ getDateFromNow }}</span>
+          <span class="stat-label mt-4" v-tooltip="'test'">{{
+            getDateFromNow
+          }}</span>
           <span class="divider"></span>
           <span
             class="stat-label mt-2"
@@ -85,12 +87,18 @@
       <div class="game-items">
         <div class="item-list">
           <div class="item" v-for="(item, idx) in 7" :key="idx">
-            <img
-              v-if="game.items[idx]"
-              class="stat-img"
-              :src="game.items[idx].imageUrl"
-              alt="item"
-            />
+            <v-popover trigger="hover" v-if="game.items[idx]">
+              <img
+                class="stat-img"
+                :src="game.items[idx].imageUrl"
+                alt="item"
+              />
+              <span slot="popover">
+                <span class="item-tooltip__name">{{
+                  getItem(game.items[idx]).name
+                }}</span>
+              </span>
+            </v-popover>
           </div>
           <div class="item bg-none">
             <img
@@ -226,6 +234,10 @@ export default {
     }
   },
   methods: {
+    getItem(item) {
+      if (!this.items.data) return false;
+      return this.items.data[getNameFromFileUrl(item.imageUrl)];
+    },
     getNameFromFileUrl,
     getKdaScore,
   },
@@ -364,6 +376,7 @@ export default {
       flex-wrap: wrap;
       margin: 0 auto;
       .item {
+        display: block;
         width: 22px;
         height: 22px;
         flex-grow: 0;

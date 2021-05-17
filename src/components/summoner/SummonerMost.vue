@@ -21,10 +21,21 @@
               <div class="info__item">
                 <span class="info__text accent">{{ item.name }}</span>
                 <!-- csPerMin이 없음 -->
-                <span class="info__text">CS {{ item.cs }}</span>
+                <span class="info__text" v-tooltip="$t('label.cs_avg')"
+                  >CS {{ item.cs }}</span
+                >
               </div>
               <div class="info__item">
-                <span class="info__text accent" :class="getKdaColor(item)"
+                <span
+                  v-tooltip="
+                    $t('label.kda_avg', {
+                      kills: (item.kills / item.games).toFixed(1),
+                      deaths: (item.deaths / item.games).toFixed(1),
+                      assists: (item.assists / item.games).toFixed(1),
+                    })
+                  "
+                  class="info__text accent"
+                  :class="getKdaColor(item)"
                   >{{ getKdaScore(item) }}:1 {{ $t("label.kda") }}</span
                 >
                 <span class="info__text"
@@ -34,7 +45,10 @@
                 >
               </div>
               <div class="info__item">
-                <span class="info__text accent" :class="getWinRatioColor(item)"
+                <span
+                  v-tooltip="$t('label.wr')"
+                  class="info__text accent"
+                  :class="getWinRatioColor(item)"
                   >{{ getWinRatio(item) }}%</span
                 >
                 <span class="info__text"

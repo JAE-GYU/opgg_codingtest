@@ -1,6 +1,7 @@
 label:
   ward: 제어와드
   pkill: 킬관여
+  pkill_percentage: 킬관여율
   level: 레벨
   wr: 승률
   wr_champion: 챔피언 승률
@@ -17,6 +18,8 @@ label:
   no_champion: 챔피언 정보가 없습니다.
   prefer_position: 선호 포지션 (랭크)
   ladder_rank: "레더 랭킹 <b>{rank}</b>위 (상위 {percentage}%)"
+  cs_avg: 평균 CS
+  kda_avg: "(K {kills} + A {assists}) / D {deaths}"
 
 game_type:
   total: 전체

@@ -6,6 +6,7 @@
       v-if="league && league.hasResults"
     >
       <img
+        v-tooltip="league.tierRank.name"
         class="summoner-rank-img"
         :src="league.tierRank.imageUrl"
         :alt="league.tierRank.tierDivision"
