@@ -6,7 +6,10 @@
         src="@/assets/images/no_summoner.png"
         alt="no-summoner"
       />
-      <p class="no-summoner__text" v-html="no_summoner_page_title"></p>
+      <p
+        class="no-summoner__text"
+        v-html="$t('label.no_summoner_page_title')"
+      ></p>
       <search-input class="no-results-search-input"></search-input>
     </div>
   </div>
