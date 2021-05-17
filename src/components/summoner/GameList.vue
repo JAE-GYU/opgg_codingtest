@@ -31,7 +31,6 @@
         v-for="(item, idx) in matches.games"
         :key="idx"
         :game="item"
-        :champions="matches.champions"
       ></game-list-item>
     </template>
   </div>

@@ -3,9 +3,9 @@ import i18n from "@/i18n";
 
 const baseURL = "https://codingtest.op.gg/api";
 
-function get(url, config = { params: {} }) {
+function get(url, config = { params: {} }, setHl = true) {
   return new Promise((resolve, reject) => {
-    config.params.hl = i18n.locale;
+    if (setHl) config.params.hl = i18n.locale;
     axios
       .get(url, config)
       .then((res) => {
@@ -33,6 +33,26 @@ export function getMatchDetail(summonerName, gameId) {
   return get(`${baseURL}/summoner/${summonerName}/matchDetail/${gameId}`);
 }
 
+function getLocaleStr() {
+  let locale = i18n.locale;
+  switch (locale) {
+    case "en":
+      locale = "en_US";
+      break;
+    case "ko":
+      locale = "ko_KR";
+      break;
+  }
+  return locale;
+}
+
 export function getItems() {
-  return get(`http://ddragon.leagueoflegends.com/cdn/10.15.1/data/ko_KR/item.json`);
+  let locale = getLocaleStr();
+
+  return get(`http://ddragon.leagueoflegends.com/cdn/10.15.1/data/${locale}/item.json`, null, false);
+}
+
+export function getChampions() {
+  let locale = getLocaleStr();
+  return get(`http://ddragon.leagueoflegends.com/cdn/11.10.1/data/${locale}/champion.json`, null, false);
 }

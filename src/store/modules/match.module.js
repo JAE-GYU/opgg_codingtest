@@ -1,13 +1,14 @@
-import { getItems, getMatches } from "@/api";
+import { getChampions, getItems, getMatches } from "@/api";
 import i18n from "@/i18n";
 
-import { FETCH_MATCHES, FETCH_ITEMS } from "@/store/actions.type";
+import { FETCH_MATCHES, FETCH_CHAMPIONS, FETCH_ITEMS } from "@/store/actions.type";
 import {
   FETCH_START,
   FETCH_END,
   SET_ITEMS,
   SET_MATCH_TYPE,
   SET_MATCHES,
+  SET_CHAMPIONS,
 } from "@/store/mutations.type";
 
 
@@ -15,12 +16,16 @@ const state = {
   isLoading: true,
   matchType: "all",
   matches: [],
+  champions: [],
   items: [],
 };
 
 const getters = {
   isLoading(state) {
     return state.isLoading;
+  },
+  champions(state) {
+    return state.champions;
   },
   items(state) {
     return state.items;
@@ -50,8 +55,11 @@ const mutations = {
   [FETCH_END](state) {
     state.isLoading = false;
   },
-  [SET_ITEMS](state, matchType) {
-    state.items = matchType;
+  [SET_CHAMPIONS](state, champions) {
+    state.champions = champions;
+  },
+  [SET_ITEMS](state, items) {
+    state.items = items;
   },
   [SET_MATCH_TYPE](state, matchType) {
     state.matchType = matchType;
@@ -62,8 +70,12 @@ const mutations = {
 };
 
 const actions = {
-  async [FETCH_ITEMS]({ commit }, summonerName) {
-    const items = await getItems(summonerName);
+  async [FETCH_CHAMPIONS]({ commit }) {
+    const champions = await getChampions();
+    commit(SET_CHAMPIONS, champions);
+  },
+  async [FETCH_ITEMS]({ commit }) {
+    const items = await getItems();
     commit(SET_ITEMS, items);
   },
   async [FETCH_MATCHES]({ commit }, summonerName) {

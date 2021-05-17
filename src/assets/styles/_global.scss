@@ -203,6 +203,10 @@ body {
   }
 
   &.popover {
+    span {
+      font-size: 11px;
+    }
+
     .popover-inner {
       background: $color;
       color: #fff;
@@ -225,5 +229,26 @@ body {
     visibility: visible;
     opacity: 1;
     transition: opacity .15s;
+  }
+}
+
+.item-popover {
+  max-width: 320px;
+  box-sizing: border-box;
+  .item-tooltip__name {
+    font-weight: bold;
+    font-size: 11px;
+    color: #00cfbc;
+  }
+
+  .item-tooltip__gold,
+  .item-tooltip__desc * {
+    font-size: 11px;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .gold {
+    color: #ffc659;
   }
 }

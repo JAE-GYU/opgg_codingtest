@@ -6,7 +6,7 @@
           <span class="stat-label"
             ><b>{{ game.gameType }}</b></span
           >
-          <span class="stat-label mt-4" v-tooltip="'test'">{{
+          <span class="stat-label mt-4" v-tooltip="getLocaleDate">{{
             getDateFromNow
           }}</span>
           <span class="divider"></span>
@@ -74,11 +74,20 @@
           <span class="stat-label"
             >{{ $t("label.level") }} {{ game.champion.level }}</span
           >
-          <span class="stat-label mt-6"
-            >{{ game.stats.general.cs }} ({{ game.stats.general.csPerMin }})
-            CS</span
-          >
-          <span class="stat-label mt-6 color-red"
+          <v-popover trigger="hover" placement="top">
+            <span class="stat-label mt-6"
+              >{{ game.stats.general.cs }} ({{ game.stats.general.csPerMin }})
+              CS</span
+            >
+            <span slot="popover">
+              CS: {{ game.stats.general.cs }}<br />
+              {{ $t("label.cs_per_min") }} :
+              {{ game.stats.general.csPerMin }}
+            </span>
+          </v-popover>
+          <span
+            v-tooltip="$t('label.pkill_percentage')"
+            class="stat-label mt-6 color-red"
             >{{ $t("label.pkill") }}
             {{ game.stats.general.contributionForKillRate }}</span
           >
@@ -87,16 +96,43 @@
       <div class="game-items">
         <div class="item-list">
           <div class="item" v-for="(item, idx) in 7" :key="idx">
-            <v-popover trigger="hover" v-if="game.items[idx]">
+            <v-popover
+              popoverClass="item-popover"
+              trigger="hover"
+              v-if="game.items[idx]"
+              placement="top"
+            >
               <img
                 class="stat-img"
                 :src="game.items[idx].imageUrl"
                 alt="item"
               />
               <span slot="popover">
-                <span class="item-tooltip__name">{{
-                  getItem(game.items[idx]).name
-                }}</span>
+                <span class="item-popover__inner">
+                  <p class="item-tooltip__name">
+                    {{ getItem(game.items[idx]).name }}
+                  </p>
+                  <span
+                    class="item-tooltip__desc"
+                    v-html="getItem(game.items[idx]).description"
+                  ></span>
+                  <p
+                    class="item-tooltip__gold"
+                    v-if="
+                      getItem(game.items[idx]).gold &&
+                      getItem(game.items[idx]).gold.total > 0
+                    "
+                  >
+                    <br />
+                    <br />
+                    {{ $t("label.cost") }}
+                    <span class="gold">
+                      {{ getItem(game.items[idx]).gold.total }} / ({{
+                        getItem(game.items[idx]).gold.base
+                      }})
+                    </span>
+                  </p>
+                </span>
               </span>
             </v-popover>
           </div>
@@ -143,7 +179,12 @@
           v-for="(team, teamIdx) in matchDetail.teams"
           :key="teamIdx"
         >
-          <div class="player" v-for="(player, idx) in team.players" :key="idx">
+          <div
+            class="player"
+            v-for="(player, idx) in team.players"
+            :key="idx"
+            @click="routeSummonerName(player.summonerName)"
+          >
             <img
               class="stat-img small"
               :src="player.champion.imageUrl"
@@ -184,19 +225,21 @@ export default {
     game: {
       required: true,
     },
-    champions: {
-      required: false,
-    },
   },
   computed: {
     ...mapGetters("summoner", ["summoner"]),
-    ...mapGetters("match", ["items"]),
+    ...mapGetters("match", ["items", "champions"]),
     getChampionName() {
+      if (!this.champions.data) return false;
       const championName = getNameFromFileUrl(this.game.champion.imageUrl);
 
-      return this.champions.find((x) => x.key === championName)
-        ? this.champions.find((x) => x.key === championName).name
+      return this.champions.data[championName]
+        ? this.champions.data[championName].name
         : championName;
+    },
+    getLocaleDate() {
+      moment.locale(i18n.locale);
+      return moment(this.game.createDate, "X").format("LLL");
     },
     getDateFromNow() {
       moment.locale(i18n.locale);
@@ -234,6 +277,9 @@ export default {
     }
   },
   methods: {
+    routeSummonerName(summonerName) {
+      this.$router.push(`/summoner/${summonerName}`).catch(() => {});
+    },
     getItem(item) {
       if (!this.items.data) return false;
       return this.items.data[getNameFromFileUrl(item.imageUrl)];
@@ -305,6 +351,7 @@ export default {
     &__icon {
       width: 13px;
       height: 10px;
+      cursor: pointer;
     }
   }
 
@@ -417,6 +464,7 @@ export default {
       overflow: hidden;
       margin-left: 3px;
       box-sizing: border-box;
+      cursor: pointer;
 
       & + .player {
         margin-top: 2px;

@@ -27,7 +27,11 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 import SummonerOverview from "@/components/summoner/SummonerOverview";
 import GameList from "@/components/summoner/GameList";
 
-import { FETCH_MATCHES, FETCH_ITEMS } from "@/store/actions.type";
+import {
+  FETCH_MATCHES,
+  FETCH_ITEMS,
+  FETCH_CHAMPIONS,
+} from "@/store/actions.type";
 import { FETCH_START, FETCH_END, SET_MATCH_TYPE } from "@/store/mutations.type";
 
 export default {
@@ -73,7 +77,8 @@ export default {
 
         Promise.all(
           [this[FETCH_MATCHES](this.summoner.name)],
-          [this[FETCH_ITEMS](this.summoner.name)]
+          [this[FETCH_ITEMS]()],
+          [this[FETCH_CHAMPIONS]()]
         )
           .catch((e) => {
             console.log(e);
@@ -89,6 +94,7 @@ export default {
     ...mapMutations(["match/" + SET_MATCH_TYPE]),
     ...mapActions({
       [FETCH_ITEMS]: "match/" + FETCH_ITEMS,
+      [FETCH_CHAMPIONS]: "match/" + FETCH_CHAMPIONS,
       [FETCH_MATCHES]: "match/" + FETCH_MATCHES,
     }),
     setMatchType(val) {

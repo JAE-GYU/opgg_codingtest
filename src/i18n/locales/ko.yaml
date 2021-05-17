@@ -1,4 +1,5 @@
 label:
+  cost: 가격
   ward: 제어와드
   pkill: 킬관여
   pkill_percentage: 킬관여율
@@ -19,6 +20,7 @@ label:
   prefer_position: 선호 포지션 (랭크)
   ladder_rank: "레더 랭킹 <b>{rank}</b>위 (상위 {percentage}%)"
   cs_avg: 평균 CS
+  cs_per_min: 분당CS
   kda_avg: "(K {kills} + A {assists}) / D {deaths}"
 
 game_type:

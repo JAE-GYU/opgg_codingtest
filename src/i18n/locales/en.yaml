@@ -1,4 +1,5 @@
 label:  
+  cost: Cost
   ward: Control Ward
   pkill: P/Kill
   pkill_percentage: Kill Participation
@@ -19,6 +20,7 @@ label:
   prefer_position: Preferred Position (Rank)
   ladder_rank: "Ladder Rank <b>{rank}</b> ( {percentage}% of top)"
   cs_avg: avg. CS
+  cs_per_min: CS per minute
   kda_avg: "(K {kills} + A {assists}) / D {deaths}"
 
 game_type:
