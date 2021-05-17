@@ -89,6 +89,7 @@ export default {
 .summoner-contents {
   display: flex;
   padding-top: 10px;
+  padding-bottom: 120px;
 
   .side {
     flex-basis: 300px;

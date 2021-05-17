@@ -144,6 +144,7 @@ export default {
     $route: {
       immediate: true,
       handler() {
+        this.setDropdownActive(false);
         this.initSearchHistory();
       },
     },
