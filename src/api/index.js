@@ -49,10 +49,18 @@ function getLocaleStr() {
 export function getItems() {
   let locale = getLocaleStr();
 
-  return get(`http://ddragon.leagueoflegends.com/cdn/10.15.1/data/${locale}/item.json`, null, false);
+  return get(
+    `http://ddragon.leagueoflegends.com/cdn/10.15.1/data/${locale}/item.json`,
+    null,
+    false
+  );
 }
 
 export function getChampions() {
   let locale = getLocaleStr();
-  return get(`http://ddragon.leagueoflegends.com/cdn/11.10.1/data/${locale}/champion.json`, null, false);
+  return get(
+    `http://ddragon.leagueoflegends.com/cdn/11.10.1/data/${locale}/champion.json`,
+    null,
+    false
+  );
 }

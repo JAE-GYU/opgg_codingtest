@@ -1,7 +1,11 @@
 import { getChampions, getItems, getMatches } from "@/api";
 import i18n from "@/i18n";
 
-import { FETCH_MATCHES, FETCH_CHAMPIONS, FETCH_ITEMS } from "@/store/actions.type";
+import {
+  FETCH_MATCHES,
+  FETCH_CHAMPIONS,
+  FETCH_ITEMS,
+} from "@/store/actions.type";
 import {
   FETCH_START,
   FETCH_END,
@@ -10,7 +14,6 @@ import {
   SET_MATCHES,
   SET_CHAMPIONS,
 } from "@/store/mutations.type";
-
 
 const state = {
   isLoading: true,
@@ -40,7 +43,9 @@ const getters = {
 
     return {
       ...state.matches,
-      games: state.matches.games.filter(x => x.gameType === i18n.t(`game_type.match.${state.matchType}`))
+      games: state.matches.games.filter(
+        (x) => x.gameType === i18n.t(`game_type.match.${state.matchType}`)
+      ),
     };
   },
   matchType(state) {
@@ -80,7 +85,6 @@ const actions = {
   },
   async [FETCH_MATCHES]({ commit }, summonerName) {
     const matches = await getMatches(summonerName);
-    console.log(matches)
     commit(SET_MATCHES, matches);
   },
 };

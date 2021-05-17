@@ -81,7 +81,6 @@ export default {
           [this[FETCH_CHAMPIONS]()]
         )
           .catch((e) => {
-            console.log(e);
             this.$router.push({ name: "NoSummoner" });
           })
           .finally(() => {

@@ -6,7 +6,7 @@ export function setCookie(
   cookieDomain,
   cookieSecure
 ) {
-  var cookieText = escape(cookieName) + '=' + escape(cookieValue);
+  let cookieText = escape(cookieName) + "=" + escape(cookieValue);
   cookieText += cookieExpire ? "; EXPIRES=" + cookieExpire.toGMTString() : "";
   cookieText += cookiePath ? "; PATH=" + cookiePath : "";
   cookieText += cookieDomain ? "; DOMAIN=" + cookieDomain : "";
@@ -15,11 +15,11 @@ export function setCookie(
 }
 
 export function getCookie(cookieName) {
-  var cookieValue = null;
+  let cookieValue = null;
   if (document.cookie) {
-    var array = document.cookie.split(escape(cookieName) + "=");
+    let array = document.cookie.split(escape(cookieName) + "=");
     if (array.length >= 2) {
-      var arraySub = array[1].split(";");
+      let arraySub = array[1].split(";");
       cookieValue = unescape(arraySub[0]);
     }
   }
@@ -43,7 +43,7 @@ export function getUnique(arr, key) {
 // 중복되는 챔피언은 값 합침
 export function mergeGroupChampion(arr) {
   let returnArr = {};
-  arr.forEach(item => {
+  arr.forEach((item) => {
     if (returnArr[item.id]) {
       let tmp = { ...returnArr[item.id] };
       returnArr[item.id] = {
@@ -55,7 +55,7 @@ export function mergeGroupChampion(arr) {
         kills: tmp.kills + item.kills,
         losses: tmp.losses + item.losses,
         wins: tmp.wins + item.wins,
-      }
+      };
     } else {
       returnArr[item.id] = item;
     }
@@ -66,7 +66,7 @@ export function mergeGroupChampion(arr) {
 
 export function mergeGroupPosition(arr) {
   let returnArr = {};
-  arr.forEach(item => {
+  arr.forEach((item) => {
     if (returnArr[item.position]) {
       let tmp = { ...returnArr[item.position] };
       returnArr[item.position] = {
@@ -74,7 +74,7 @@ export function mergeGroupPosition(arr) {
         games: tmp.games + item.games,
         losses: tmp.losses + item.losses,
         wins: tmp.wins + item.wins,
-      }
+      };
     } else {
       returnArr[item.position] = item;
     }
@@ -104,7 +104,7 @@ export function getWinRatio({ wins, losses }) {
 }
 
 export function getKdaScore({ kills, deaths, assists }) {
-  return (((kills + assists) / deaths) || 0).toFixed(2);
+  return ((kills + assists) / deaths || 0).toFixed(2);
 }
 
 export function getWinRatioColor({ wins, losses }) {

@@ -67,7 +67,6 @@ export default {
           this[FETCH_MOST_INFO](summonerName),
         ])
           .catch((e) => {
-            console.log(e);
             this.$router.push({ name: "NoSummoner" });
           })
           .finally(() => {
