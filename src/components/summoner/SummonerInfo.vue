@@ -12,6 +12,7 @@
             class="tag"
             v-for="(item, idx) in sortedpreviousTier"
             :key="idx"
+            v-tooltip="getDivisionTierNum(item) + ` ${item.lp}LP`"
           >
             <span class="season">{{ `S${item.season}` }}</span>
             <span class="rank"> {{ item.tier }}</span>
@@ -36,7 +37,9 @@
               :src="summoner && summoner.profileImageUrl"
               alt="profile-img"
             />
-            <span class="badge">{{ summoner && summoner.level }}</span>
+            <span class="badge" v-tooltip="$t('label.level')">{{
+              summoner && summoner.level
+            }}</span>
           </skeleton>
         </div>
         <div class="profile-info">
@@ -76,6 +79,8 @@
 </template>
 
 <script>
+import { getDivisionTierNum } from "@/utils";
+
 export default {
   props: {
     summoner: {
@@ -93,6 +98,9 @@ export default {
             .sort((a, b) => a.season - b.season)
         : [];
     },
+  },
+  methods: {
+    getDivisionTierNum,
   },
 };
 </script>
