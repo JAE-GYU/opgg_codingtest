@@ -58,7 +58,9 @@ const mutations = {
     state.isLoading = true;
   },
   [FETCH_END](state) {
-    state.isLoading = false;
+    setTimeout(() => {
+      state.isLoading = false;
+    }, 150);
   },
   [SET_CHAMPIONS](state, champions) {
     state.champions = champions;
