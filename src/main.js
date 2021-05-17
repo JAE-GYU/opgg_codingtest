@@ -5,6 +5,10 @@ import store from "@/store";
 
 import i18n from "@/i18n";
 
+import VTooltip from "v-tooltip";
+
+Vue.use(VTooltip);
+
 import HighchartsVue from "highcharts-vue";
 Vue.use(HighchartsVue);
 
