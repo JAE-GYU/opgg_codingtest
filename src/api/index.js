@@ -28,3 +28,11 @@ export function getMostInfo(summonerName) {
 export function getMatches(summonerName) {
   return get(`${baseURL}/summoner/${summonerName}/matches`);
 }
+
+export function getMatchDetail(summonerName, gameId) {
+  return get(`${baseURL}/summoner/${summonerName}/matchDetail/${gameId}`);
+}
+
+export function getItems() {
+  return get(`http://ddragon.leagueoflegends.com/cdn/10.15.1/data/ko_KR/item.json`);
+}

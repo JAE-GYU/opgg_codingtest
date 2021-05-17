@@ -91,7 +91,6 @@ export default {
   padding-top: 10px;
 
   .side {
-    height: 300px;
     flex-basis: 300px;
     margin-right: 10px;
 
@@ -101,7 +100,6 @@ export default {
   }
 
   .main {
-    height: 400px;
     flex: 1 1 auto;
   }
 }

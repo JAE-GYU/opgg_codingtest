@@ -1,9 +1,14 @@
 label:  
+  ward: Control Ward
+  pkill: P/Kill
+  level: level
   wr: Win Ratio
   wr_champion: Champion Win Ratio
   wr_week: Rank win rate per week
   win: W
   lose: L
+  victory: Victory
+  defeat: Defeat
   win_lose: "{win}W {lose}L"
   total_win_lose: "{total}G {win}W {lose}L"
   kda: KDA
@@ -36,3 +41,8 @@ search:
   favorites: Favorites
   no_recent: There is no summoner you seen recently.
   no_favorite: "Add your <i class='icon icon-favorite-off mini'></i> favorite summoner for easy updates on the latest stats."  
+
+time:
+  h: h
+  m: m
+  s: s

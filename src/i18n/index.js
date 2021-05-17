@@ -8,7 +8,7 @@ import Utils from "@/utils";
 Vue.use(VueI18n);
 
 export function detectLocale() {
-  let locale = "ko";
+  let locale = "en";
 
   if (navigator.language) {
     locale = navigator.language.toLowerCase();

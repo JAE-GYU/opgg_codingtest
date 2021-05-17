@@ -22,8 +22,7 @@
           }}</span
         >
         <span class="ratio mt-3"
-          >{{ $t("label.wr") }}
-          {{ getWinRatio(league.wins, league.losses) }}%</span
+          >{{ $t("label.wr") }} {{ getWinRatio(league) }}%</span
         >
       </div>
     </div>

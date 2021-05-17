@@ -1,9 +1,14 @@
-label:  
+label:
+  ward: 제어와드
+  pkill: 킬관여
+  level: 레벨
   wr: 승률
   wr_champion: 챔피언 승률
   wr_week: 7일간 랭크 승률
   win: 승
   lose: 패
+  victory: 승리
+  defeat: 패배
   win_lose: "{win}승 {lose}패"
   total_win_lose: "{total}전 {win}승 {lose}패"
   kda: 평점
@@ -35,3 +40,8 @@ search:
   favorites: 즐겨찾기
   no_recent: 최근에 본 소환사가 없습니다.
   no_favorite: "관심있는 소환사에 <i class='icon icon-favorite-off mini'></i> 즐겨찾기를 하여 편리하게 정보를 받아보세요."
+
+time:
+  h: 시간
+  m: 분
+  s: 초

@@ -16,7 +16,7 @@
         :loading="isLoading"
         :matches="matches"
       ></summoner-overview>
-      <game-list></game-list>
+      <game-list :loading="isLoading" :matches="matches"></game-list>
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 import SummonerOverview from "@/components/summoner/SummonerOverview";
 import GameList from "@/components/summoner/GameList";
 
-import { FETCH_MATCHES } from "@/store/actions.type";
+import { FETCH_MATCHES, FETCH_ITEMS } from "@/store/actions.type";
 import { FETCH_START, FETCH_END, SET_MATCH_TYPE } from "@/store/mutations.type";
 
 export default {
@@ -66,7 +66,10 @@ export default {
 
         this.$store.commit(namespace + FETCH_START);
 
-        Promise.all([this[FETCH_MATCHES](this.summoner.name)])
+        Promise.all(
+          [this[FETCH_MATCHES](this.summoner.name)],
+          [this[FETCH_ITEMS](this.summoner.name)]
+        )
           .catch((e) => {
             console.log(e);
             this.$router.push({ name: "NoSummoner" });
@@ -80,6 +83,7 @@ export default {
   methods: {
     ...mapMutations(["match/" + SET_MATCH_TYPE]),
     ...mapActions({
+      [FETCH_ITEMS]: "match/" + FETCH_ITEMS,
       [FETCH_MATCHES]: "match/" + FETCH_MATCHES,
     }),
     setMatchType(val) {
@@ -117,7 +121,6 @@ export default {
       }
 
       span {
-        font-weight: bold;
         color: #1f8ecd;
       }
     }

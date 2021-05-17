@@ -1,15 +1,34 @@
-export function getCookie(cName) {
-  cName = cName + "=";
-  let cookieData = document.cookie;
-  let start = cookieData.indexOf(cName);
-  let cValue = "";
-  if (start != -1) {
-    start += cName.length;
-    let end = cookieData.indexOf(";", start);
-    if (end == -1) end = cookieData.length;
-    cValue = cookieData.substring(start, end);
+export function setCookie(
+  cookieName,
+  cookieValue,
+  cookieExpire,
+  cookiePath,
+  cookieDomain,
+  cookieSecure
+) {
+  var cookieText = escape(cookieName) + '=' + escape(cookieValue);
+  cookieText += cookieExpire ? "; EXPIRES=" + cookieExpire.toGMTString() : "";
+  cookieText += cookiePath ? "; PATH=" + cookiePath : "";
+  cookieText += cookieDomain ? "; DOMAIN=" + cookieDomain : "";
+  cookieText += cookieSecure ? "; SECURE" : "";
+  document.cookie = cookieText;
+}
+
+export function getCookie(cookieName) {
+  var cookieValue = null;
+  if (document.cookie) {
+    var array = document.cookie.split(escape(cookieName) + "=");
+    if (array.length >= 2) {
+      var arraySub = array[1].split(";");
+      cookieValue = unescape(arraySub[0]);
+    }
   }
-  return unescape(cValue);
+  return cookieValue;
+}
+
+export function getNameFromFileUrl(url) {
+  const splitArr = url.split("/");
+  return splitArr[splitArr.length - 1].split(".")[0];
 }
 
 export function getUnique(arr, key) {
@@ -85,7 +104,7 @@ export function getWinRatio({ wins, losses }) {
 }
 
 export function getKdaScore({ kills, deaths, assists }) {
-  return ((kills + assists) / deaths).toFixed(2);
+  return (((kills + assists) / deaths) || 0).toFixed(2);
 }
 
 export function getWinRatioColor({ wins, losses }) {
@@ -109,6 +128,7 @@ export function getKdaScoreColor(item) {
 }
 
 export default {
+  setCookie,
   getCookie,
   getUnique,
   getDivisionTierNum,
