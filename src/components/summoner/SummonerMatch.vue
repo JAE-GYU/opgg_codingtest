@@ -80,7 +80,7 @@ export default {
           [this[FETCH_ITEMS]()],
           [this[FETCH_CHAMPIONS]()]
         )
-          .catch((e) => {
+          .catch(() => {
             this.$router.push({ name: "NoSummoner" });
           })
           .finally(() => {
